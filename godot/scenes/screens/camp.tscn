@@ -1,0 +1,241 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/screens/camp.gd" id="1_camp"]
+
+[node name="Camp" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_camp")
+
+[node name="Layout" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Body" type="MarginContainer" parent="Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 12
+
+[node name="Columns" type="HBoxContainer" parent="Layout/Body"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Left" type="VBoxContainer" parent="Layout/Body/Columns"]
+custom_minimum_size = Vector2(390, 0)
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="YouPanel" type="PanelContainer" parent="Layout/Body/Columns/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="You" type="VBoxContainer" parent="Layout/Body/Columns/Left/YouPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="GearPanel" type="PanelContainer" parent="Layout/Body/Columns/Left"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GearScroll" type="ScrollContainer" parent="Layout/Body/Columns/Left/GearPanel"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Gear" type="VBoxContainer" parent="Layout/Body/Columns/Left/GearPanel/GearScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Center" type="VBoxContainer" parent="Layout/Body/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="ShopPanel" type="PanelContainer" parent="Layout/Body/Columns/Center"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ShopBox" type="VBoxContainer" parent="Layout/Body/Columns/Center/ShopPanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ShopHead" type="HBoxContainer" parent="Layout/Body/Columns/Center/ShopPanel/ShopBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="ShopTitle" type="Label" parent="Layout/Body/Columns/Center/ShopPanel/ShopBox/ShopHead"]
+layout_mode = 2
+theme_type_variation = &"HeaderLabel"
+text = "Shop"
+
+[node name="ItemsTab" type="Button" parent="Layout/Body/Columns/Center/ShopPanel/ShopBox/ShopHead"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+toggle_mode = true
+button_pressed = true
+text = "Items"
+
+[node name="DroneTab" type="Button" parent="Layout/Body/Columns/Center/ShopPanel/ShopBox/ShopHead"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+toggle_mode = true
+text = "RAY-24 upgrades"
+
+[node name="Spacer" type="Control" parent="Layout/Body/Columns/Center/ShopPanel/ShopBox/ShopHead"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ShopMoney" type="Label" parent="Layout/Body/Columns/Center/ShopPanel/ShopBox/ShopHead"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"BoldLabel"
+theme_override_colors/font_color = Color(0.65, 0.49, 0, 1)
+theme_override_font_sizes/font_size = 30
+
+[node name="ItemsView" type="ScrollContainer" parent="Layout/Body/Columns/Center/ShopPanel/ShopBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 3
+
+[node name="ItemMargin" type="MarginContainer" parent="Layout/Body/Columns/Center/ShopPanel/ShopBox/ItemsView"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="ItemGrid" type="GridContainer" parent="Layout/Body/Columns/Center/ShopPanel/ShopBox/ItemsView/ItemMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 4
+
+[node name="DroneView" type="VBoxContainer" parent="Layout/Body/Columns/Center/ShopPanel/ShopBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="DroneHead" type="Label" parent="Layout/Body/Columns/Center/ShopPanel/ShopBox/DroneView"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+
+[node name="DroneScroll" type="ScrollContainer" parent="Layout/Body/Columns/Center/ShopPanel/ShopBox/DroneView"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 3
+
+[node name="DroneTracks" type="VBoxContainer" parent="Layout/Body/Columns/Center/ShopPanel/ShopBox/DroneView/DroneScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Actions" type="HBoxContainer" parent="Layout/Body/Columns/Center/ShopPanel/ShopBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Right" type="VBoxContainer" parent="Layout/Body/Columns"]
+custom_minimum_size = Vector2(390, 0)
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="MonsterPanel" type="PanelContainer" parent="Layout/Body/Columns/Right"]
+layout_mode = 2
+
+[node name="Monster" type="VBoxContainer" parent="Layout/Body/Columns/Right/MonsterPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ForecastPanel" type="PanelContainer" parent="Layout/Body/Columns/Right"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ForecastScroll" type="ScrollContainer" parent="Layout/Body/Columns/Right/ForecastPanel"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Forecast" type="VBoxContainer" parent="Layout/Body/Columns/Right/ForecastPanel/ForecastScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Bottom" type="MarginContainer" parent="Layout"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="BottomRow" type="HBoxContainer" parent="Layout/Bottom"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="LogSlot" type="VBoxContainer" parent="Layout/Bottom/BottomRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Buttons" type="VBoxContainer" parent="Layout/Bottom/BottomRow"]
+custom_minimum_size = Vector2(390, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="StartFight" type="Button" parent="Layout/Bottom/BottomRow/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_type_variation = &"AccentButton"
+theme_override_font_sizes/font_size = 38
+text = "⚔  Start fight"
+
+[node name="Leave" type="Button" parent="Layout/Bottom/BottomRow/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Leave dungeon"
+
+[node name="Hint" type="Label" parent="Layout/Bottom/BottomRow/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TopBarLabel"
+theme_override_font_sizes/font_size = 17
+text = "0/Enter: Start fight  ·  1-9: Menu options"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="FX" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

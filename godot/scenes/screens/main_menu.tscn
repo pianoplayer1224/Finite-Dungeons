@@ -1,0 +1,135 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/screens/main_menu.gd" id="1_menu"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 80
+
+[node name="Center" type="CenterContainer" parent="Margin"]
+layout_mode = 2
+
+[node name="Column" type="VBoxContainer" parent="Margin/Center"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Name" type="Label" parent="Margin/Center/Column"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+theme_override_font_sizes/font_size = 132
+text = "Finite Dungeons"
+
+[node name="Block" type="HBoxContainer" parent="Margin/Center/Column"]
+layout_mode = 2
+theme_override_constants/separation = 80
+
+[node name="Menu" type="VBoxContainer" parent="Margin/Center/Column/Block"]
+custom_minimum_size = Vector2(580, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="StartRun" type="Button" parent="Margin/Center/Column/Block/Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"AccentButton"
+theme_override_font_sizes/font_size = 38
+text = "Start run"
+
+[node name="Collection" type="HBoxContainer" parent="Margin/Center/Column/Block/Menu"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="Achievements" type="Button" parent="Margin/Center/Column/Block/Menu/Collection"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
+text = "Achievements"
+
+[node name="Library" type="Button" parent="Margin/Center/Column/Block/Menu/Collection"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
+text = "Library"
+
+[node name="Help" type="HBoxContainer" parent="Margin/Center/Column/Block/Menu"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="HowToPlay" type="Button" parent="Margin/Center/Column/Block/Menu/Help"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
+text = "How to play"
+
+[node name="Credits" type="Button" parent="Margin/Center/Column/Block/Menu/Help"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
+text = "Credits"
+
+[node name="System" type="HBoxContainer" parent="Margin/Center/Column/Block/Menu"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="SaveCode" type="Button" parent="Margin/Center/Column/Block/Menu/System"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
+text = "Save code"
+
+[node name="Options" type="Button" parent="Margin/Center/Column/Block/Menu/System"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
+text = "Options"
+
+[node name="Quit" type="Button" parent="Margin/Center/Column/Block/Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 26
+text = "Quit"
+
+[node name="Profile" type="PanelContainer" parent="Margin/Center/Column/Block"]
+custom_minimum_size = Vector2(760, 0)
+layout_mode = 2
+
+[node name="Body" type="VBoxContainer" parent="Margin/Center/Column/Block/Profile"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 18

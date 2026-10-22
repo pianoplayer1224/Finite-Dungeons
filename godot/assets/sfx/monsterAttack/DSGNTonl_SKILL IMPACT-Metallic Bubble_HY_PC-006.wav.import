@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://y0st537cty25"
+path="res://.godot/imported/DSGNTonl_SKILL IMPACT-Metallic Bubble_HY_PC-006.wav-4a953f455953106321981e84debd4a24.sample"
+
+[deps]
+
+source_file="res://assets/sfx/monsterAttack/DSGNTonl_SKILL IMPACT-Metallic Bubble_HY_PC-006.wav"
+dest_files=["res://.godot/imported/DSGNTonl_SKILL IMPACT-Metallic Bubble_HY_PC-006.wav-4a953f455953106321981e84debd4a24.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=true
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,11 @@
+# Splash texts for the top bar (Camp and Battle): one message per line.
+# Blank lines and lines starting with # are ignored. One is picked at random and swapped every
+# few seconds, never the same one twice in a row. These are placeholders - replace them freely.
+Placeholder splash text 1
+Placeholder splash text 2
+Placeholder splash text 3
+Placeholder splash text 4
+Placeholder splash text 5
+Placeholder splash text 6
+Placeholder splash text 7
+Placeholder splash text 8

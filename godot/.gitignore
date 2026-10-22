@@ -1,0 +1,17 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+# Build output; its .gdignore stops Godot importing (and re-exporting) old builds
+exports/*
+!exports/.gdignore
+
+# Local-only editor tooling (Godot MCP plugin): not a game dependency
+addons/
+
+# Python bytecode from the parity harness importing FiniteDungeons.py
+__pycache__/
+*.pyc
+
+# Local working notes (owner's choice)
+PORT_PLAN.md
+CLAUDE.md

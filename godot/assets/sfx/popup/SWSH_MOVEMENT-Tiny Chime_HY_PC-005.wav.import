@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://pynwa00r6r4m"
+path="res://.godot/imported/SWSH_MOVEMENT-Tiny Chime_HY_PC-005.wav-c7e194476036359211013bf593d5a254.sample"
+
+[deps]
+
+source_file="res://assets/sfx/popup/SWSH_MOVEMENT-Tiny Chime_HY_PC-005.wav"
+dest_files=["res://.godot/imported/SWSH_MOVEMENT-Tiny Chime_HY_PC-005.wav-c7e194476036359211013bf593d5a254.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=true
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

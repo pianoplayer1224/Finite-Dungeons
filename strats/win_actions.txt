@@ -1,0 +1,118 @@
+FINITE DUNGEONS - WINNING ACTIONS, ROUND BY ROUND
+=================================================
+
+For the current balance (Elixir costs 2, Vitality takes 10%, bronze card at 2).
+
+Follow every line exactly: the game has no randomness, so these exact moves
+always give the same result. One extra or missing purchase can change it.
+Explanations are in HOW_TO_WIN.md.
+
+Each line: the level, what you should have when that level's menu opens
+(HP and money), what to buy, and the keys to press. The keys are the same on
+PC and calculator: 1 opens the Shop, type each item number, 0 goes back,
+0 starts the fight. Press Enter (PC) or EXE (calculator) after each number.
+
+Shop numbers (the same in all three runs):
+  1 Sword   2 Shield   3 Boots   4 Chicken   5 Book of Attack   6 Book of Defence
+  7 Book of Speed   8 Book of Max HP   9 Book of Healing   0 back to the level menu
+
+--------------------------------------------------------------------------------------------
+RUN 1 - Picture of Family, no artefact   (start here if highest is 0-11)
+--------------------------------------------------------------------------------------------
+  Main menu: 1 (start run)
+  Artefact:  none unlocked yet on a brand-new save, so the game skips this question.
+             (On an older save it asks: press 0 for no artefact.)
+  Relic:     1 (Picture of Family)
+
+  Level  You have            Buy                               Keys (PC and calc)
+      1  HP 10/10 $0.00      nothing                           0
+      2  HP 6/10 $4.00       Book of Max HP                    1 8 0 0
+      3  HP 1/20 $5.00       Shield, Book of Healing           1 2 9 0 0
+      4  HP 13/20 $4.00      Book of Defence                   1 6 0 0
+      5  HP 5/20 $5.00       Book of Max HP, Chicken           1 8 4 0 0
+      6  HP 1/40 $4.00       Book of Healing                   1 9 0 0
+      7  HP 20/40 $5.00      Sword, Book of Defence            1 1 6 0 0
+      8  HP 9/40 $4.00       Book of Healing                   1 9 0 0
+      9  HP 28/40 $5.00      nothing                           0
+     10  HP 15/40 $9.00      Book of Attack x3                 1 5 5 5 0 0
+     11  HP 9/40 $4.00       Book of Defence                   1 6 0 0
+     12  HP 6/40 $5.00       nothing                           0
+     13  HP 2/40 $9.00       nothing                           0   <- you die here (expected)
+
+  On level 2 you drop to 0 HP and the picture revives you at 1 HP. You die
+  on level 13. That is the plan: highest becomes 12, which unlocks the
+  Abyssal Rad-Blood Oath.
+
+--------------------------------------------------------------------------------------------
+RUN 2 - Blessed Emblem + Abyssal Rad-Blood Oath   (start here if highest is 12-19)
+--------------------------------------------------------------------------------------------
+  Main menu: 1 (start run)
+  Artefact:  3 (Abyssal Rad-Blood Oath)
+  Relic:     2 (Blessed Emblem)
+
+  Level  You have            Buy                               Keys (PC and calc)
+      1  HP 9/10 $0.00       nothing                           0
+      2  HP 5/10 $4.00       Shield, Chicken                   1 2 4 0 0
+      3  HP 4/10 $4.00       Book of Healing                   1 9 0 0
+      4  HP 15/15 $5.00      Book of Defence                   1 6 0 0
+      5  HP 7/15 $6.00       Book of Max HP, Book of Healing   1 8 9 0 0
+      6  HP 6/30 $4.00       Book of Healing                   1 9 0 0
+      7  HP 35/35 $5.00      Sword, Book of Defence            1 1 6 0 0
+      8  HP 24/35 $4.00      nothing                           0
+      9  HP 12/35 $8.00      Water sample (235), Book of Attack x3  1 235 5 5 5 0 0
+     10  HP 35/35 $4.00      nothing                           0
+     11  HP 29/35 $8.00      nothing                           0
+     12  HP 20/35 $12.00     nothing                           0
+     13  HP 40/40 $16.00     Boots, Book of Defence            1 3 6 0 0
+     14  HP 34/40 $15.00     nothing                           0
+     15  HP 25/40 $19.00     Book of Speed x3, Book of Max HP  1 7 7 7 8 0 0
+     16  HP 85/85 $11.00     nothing                           0
+     17  HP 66/85 $15.00     nothing                           0
+     18  HP 45/85 $19.00     Book of Max HP                    1 8 0 0
+     19  HP 175/175 $20.00   nothing                           0
+     20  HP 106/175 $24.00   nothing                           0
+     21  HP 10/175 $28.00    nothing                           0   <- you die here (expected)
+
+  On level 9, type 235 in the shop to take the water sample (once per run).
+  You die on level 21. That is the plan: highest becomes 20, which unlocks Vitality.
+
+--------------------------------------------------------------------------------------------
+RUN 3 - Blessed Emblem + Heart of Excessive Vitality   (start here if highest is 20+)
+--------------------------------------------------------------------------------------------
+  Main menu: 1 (start run)
+  Artefact:  6 (Heart of Excessive Vitality)
+  Relic:     2 (Blessed Emblem)
+
+  Level  You have            Buy                               Keys (PC and calc)
+      1  HP 49/50 $0.00      nothing                           0
+      2  HP 45/50 $4.00      nothing                           0
+      3  HP 38/50 $7.60      nothing                           0
+      4  HP 55/55 $10.84     nothing                           0
+      5  HP 27/55 $13.76     Shield, Book of Defence           1 2 6 0 0
+      6  HP 15/55 $11.88     Book of Defence                   1 6 0 0
+      7  HP 60/60 $11.99     nothing                           0
+      8  HP 44/60 $14.79     nothing                           0
+      9  HP 26/60 $17.31     nothing                           0
+     10  HP 65/65 $19.58     Book of Defence                   1 6 0 0
+     11  HP 44/65 $18.92     nothing                           0
+     12  HP 21/65 $21.03     Sword, Book of Attack x3          1 1 5 5 5 0 0
+     13  HP 70/70 $13.03     nothing                           0
+     14  HP 59/70 $15.73     nothing                           0
+     15  HP 43/70 $18.15     Book of Max HP                    1 8 0 0
+     16  HP 145/145 $17.64   nothing                           0
+     17  HP 118/145 $19.87   nothing                           0
+     18  HP 89/145 $21.89    Book of Max HP x2                 1 8 8 0 0
+     19  HP 585/585 $18.30   nothing                           0
+     20  HP 508/585 $20.47   nothing                           0
+     21  HP 403/585 $22.42   nothing                           0
+     22  HP 590/590 $24.18   Boots, Book of Speed              1 3 7 0 0
+     23  HP 426/590 $21.26   Chicken                           1 4 0 0
+     24  HP 234/590 $21.34   nothing                           0
+     25  HP 595/595 $23.20   nothing                           0
+     26  HP 324/595 $24.88   nothing                           0
+     27  HP 13/595 $26.39    Book of Healing                   1 9 0 0
+     28  HP 600/600 $25.05   Book of Speed x2                  1 7 7 0 0
+     29  HP 208/600 $21.15   Book of Healing                   1 9 0 0
+     30  HP 163/600 $20.33   Book of Healing                   1 9 0 0
+
+  You beat level 30 and win, with 117 HP left.

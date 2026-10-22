@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dfbgk1o8nlhgk"
+path="res://.godot/imported/UIMisc_INTERFACE-Zap Select_HY_PC-003.wav-b9284daff39df0698301d724d5282111.sample"
+
+[deps]
+
+source_file="res://assets/sfx/select/UIMisc_INTERFACE-Zap Select_HY_PC-003.wav"
+dest_files=["res://.godot/imported/UIMisc_INTERFACE-Zap Select_HY_PC-003.wav-b9284daff39df0698301d724d5282111.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=true
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

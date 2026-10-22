@@ -1,0 +1,9 @@
+Sprites
+"Sprite Sheet Hero" by Hernan G CF
+"2D Pixel Slime Set" by tienlev
+
+Music
+"Woodland Fantasy" and "The Last Encounter" by Matthew Pablo
+
+SFX
+"Helton Yan's Pixel Combat" by Helton Yan

@@ -1,0 +1,67 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/screens/text_page.gd" id="1_page"]
+
+[node name="TextPage" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_page")
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 240.0
+offset_top = 60.0
+offset_right = -240.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Panel/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HeaderLabel"
+
+[node name="Note" type="Label" parent="Panel/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SoftLabel"
+autowrap_mode = 3
+
+[node name="Inset" type="PanelContainer" parent="Panel/Box"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"InsetPanel"
+
+[node name="Scroll" type="ScrollContainer" parent="Panel/Box/Inset"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Text" type="RichTextLabel" parent="Panel/Box/Inset/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+
+[node name="Back" type="Button" parent="Panel/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"AccentButton"
+text = "Back"

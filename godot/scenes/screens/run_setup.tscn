@@ -1,0 +1,126 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/screens/run_setup.gd" id="1_setup"]
+
+[node name="RunSetup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_setup")
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 70.0
+offset_top = 50.0
+offset_right = -70.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Head" type="HBoxContainer" parent="Panel/Box"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Panel/Box/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"HeaderLabel"
+
+[node name="Step" type="Label" parent="Panel/Box/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_type_variation = &"SoftLabel"
+theme_override_font_sizes/font_size = 24
+vertical_alignment = 1
+
+[node name="Banner" type="Label" parent="Panel/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+autowrap_mode = 3
+
+[node name="Slots" type="HBoxContainer" parent="Panel/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="CardScroll" type="ScrollContainer" parent="Panel/Box"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Cards" type="HFlowContainer" parent="Panel/Box/CardScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 14
+
+[node name="Detail" type="PanelContainer" parent="Panel/Box"]
+custom_minimum_size = Vector2(0, 190)
+layout_mode = 2
+theme_type_variation = &"InsetPanel"
+
+[node name="Row" type="HBoxContainer" parent="Panel/Box/Detail"]
+layout_mode = 2
+theme_override_constants/separation = 22
+
+[node name="Icon" type="TextureRect" parent="Panel/Box/Detail/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Panel/Box/Detail/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Name" type="Label" parent="Panel/Box/Detail/Row/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+theme_override_font_sizes/font_size = 30
+autowrap_mode = 3
+
+[node name="Desc" type="RichTextLabel" parent="Panel/Box/Detail/Row/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 23
+bbcode_enabled = true
+fit_content = true
+
+[node name="Buttons" type="HBoxContainer" parent="Panel/Box"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Back" type="Button" parent="Panel/Box/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Back"
+
+[node name="Spacer" type="Control" parent="Panel/Box/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Next" type="Button" parent="Panel/Box/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+theme_type_variation = &"AccentButton"
+text = "Next"
