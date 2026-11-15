@@ -147,7 +147,7 @@ static func format_event(ev: Dictionary) -> Array[String]:
 
 	# --- combat ---
 	if t == "smirk":
-		return ["'雑魚(pointless peasant)', you smirked"]
+		return ["'雑魚', you smirked"]
 
 	if t == "drone_shot":
 		var head: String = ["a", "a second", "a third"][ev["shot"]]

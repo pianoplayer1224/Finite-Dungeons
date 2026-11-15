@@ -110,7 +110,7 @@ def format_event(ev):
 
     # --- combat ---
     if t == "smirk":
-        return ["'Zako(pointless peasant)', you smirked"]
+        return ["'Zako', you smirked"]
 
     if t == "drone_shot":
         head = ("a", "a second", "a third")[ev["shot"]]

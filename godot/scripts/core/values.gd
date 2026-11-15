@@ -79,10 +79,10 @@ const DRONE_INCOME_MULTIPLIER := 2       # track 4 stage 4: all income x this ("
 
 # --- Artefacts ---
 const ELIXIR_SPD_LOSS := 1        # Devotion's Elixir: -1 SPD and -[Elixirs bought] max HP,
-const ELIXIR_EXTRA_SPD := 6       #   +6 extra SPD,
+const ELIXIR_EXTRA_SPD := 9       #   +9 extra SPD,
 const ELIXIR_FIGHTS := 3          #   wearing off over the next 3 fights:
-const ELIXIR_SPD_DECAY := 2       #   -2 extra SPD after each of them
-const SOCKS_MAX_HP := 3           # Cursed Socks: activate at this HP or less
+const ELIXIR_SPD_DECAY := 3       #   -3 extra SPD after each of them
+const SOCKS_MAX_HP := 5           # Cursed Socks: activate at this HP or less
 const AR_MAX_HP_LOSS := 5         # Abyssal Rad-Blood Oath: the water sample (once per run)
 const AR_LEVEL_STEP := 5          #   costs 5 max HP and pays
 const AR_POWER := 4               #   (levels beaten // 5) ** this money
@@ -101,7 +101,7 @@ const RELIC_UNLOCKS := [
 	["forbidden", 0],
 	["e-sword", 999999],   # kept out of the game until it is balanced
 	["bk", 2],
-	["sk", 7],
+	["sk", 6],
 	["yd", 8],
 	["gk", 10],
 	["meowton", 15],
@@ -109,7 +109,7 @@ const RELIC_UNLOCKS := [
 ]
 const ARTEFACT_UNLOCKS := [
 	["devotion", 3],
-	["socks", 6],
+	["socks", 5],
 	["ar", 12],
 	["coinpot", 18],
 	["carrier", 20],
@@ -117,7 +117,7 @@ const ARTEFACT_UNLOCKS := [
 ]
 
 # --- Achievements ---
-const RICH_MONEY := 25000000      # "you can't take it with you": die holding this much
+const RICH_MONEY := 32000000      # "you can't take it with you": die holding this much
 const FEW_RUNS := 3               # "The real game": beat FINAL_LEVEL within this many runs
 const HARD_MODE_LEVEL := 2        # "hard mode": die on this level with Meowton + Cursed Socks
 
