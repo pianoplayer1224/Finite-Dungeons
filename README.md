@@ -5,7 +5,9 @@ Fight your way up 30 dungeon levels by buying the right gear between fights, the
 level 30 boss.
 
 It comes in three editions with the same rules, numbers, jokes and save codes. Every value they
-play by, and an update log numbered by balance issue, is in [BALANCE.md](BALANCE.md).
+play by is in [`balance.yaml`](balance.yaml). To change one, edit it there and run
+`python3 tools/balance.py`: it updates all three editions, then checks that they still play the
+same game.
 
 | Edition | Folder | How to play |
 | --- | --- | --- |
@@ -60,7 +62,7 @@ edition, so you can carry on from one to another. The Godot edition also saves a
 | `pc/FiniteDungeons.py` | The PC edition: one file, and the reference the other two follow. |
 | `calc/` | The fx-CG100 edition (MicroPython 1.9.4). |
 | `godot/` | The Godot 4 project; asset credits in `godot/credits.txt`. |
-| `BALANCE.md` | Every gameplay value, shared by all editions. |
-| `tools/` | Checks and searches for the PC and calculator editions. |
+| `balance.yaml` | Every gameplay value, with what it does: the one place to change them. |
+| `tools/` | `balance.py` (writes `balance.yaml` into every edition), plus checks and searches for the PC and calculator editions. |
 | `strats/` | How to win in three runs. |
 | `archive/` | The original game and other reference copies. |
