@@ -8,7 +8,7 @@ Three runs from a brand-new save, which is the fewest possible. The game has **n
 |---|---|---|---|---|
 | 1 | Picture of Family | none | unlock Abyssal Rad-Blood Oath (needs highest ≥ 12) | dies on level 13 → highest 12 |
 | 2 | Blessed Emblem | Abyssal Rad-Blood Oath | unlock Vitality (needs highest ≥ 20) | dies on level 21 → highest 20 |
-| 3 | Blessed Emblem | Heart of Excessive Vitality | **win** | beats level 30 with 117 HP left |
+| 3 | Pic+Blessed Emblem+book | carrier | **win** | beats level 30 |
 
 The two deaths are intended. Runs 1 and 2 only exist to unlock the artefacts that run 3 needs.
 
@@ -23,7 +23,7 @@ You don't need a new save. Start at the run your **highest level beaten** allows
 | Your highest | Start at | Why |
 |---|---|---|
 | 0–11 | Run 1 | Abyssal isn't unlocked yet. |
-| 12–19 | Run 2 | You have Abyssal; you still need Vitality. |
+| 12–19 | Run 2 | You have Abyssal; you still need carrier. |
 | 20 or more | Run 3 | Everything is unlocked. Win now. |
 
 The menu numbers in `win_actions.txt` are the same whatever you've unlocked: Picture of Family is always relic **1**, Blessed Emblem is always relic **2**, Abyssal is always artefact **3**, and Vitality is always artefact **6**. On a save that isn't new, run 1 asks for an artefact: press **0** (no artefact).
@@ -56,14 +56,14 @@ Both editions use the same menus and keys. Before each fight you get the level m
 - Level 13: Boots and the last Defence book. Level 15: three Speed books and a Max HP book. Level 18: the last Max HP book. With Blessed, books bought on 15 and 18 are refilled for free (see "Why it works").
 - You only need to *beat level 20*. Dying on 21 is fine.
 
-**Run 3 (Blessed Emblem + Vitality), the winning run.**
+**Run 3 (pic+emblem+book + carrier), the winning run.**
 
 | Level | Buy | Result |
 |---|---|---|
-| 2–4 | nothing | |
-| 5 | Shield + Book of Defence | DEF 4 |
-| 6 | Book of Defence | DEF 8 |
-| 10 | Book of Defence | DEF 16 (final) |
+| 2 | boot | |
+| 3 | swap to embelem, then buy book of heal and shield| |
+| 4 | def book |  |
+| 5-6 | chicken on 5, heal book on 6 |  |
 | 12 | Sword + Book of Attack ×3 | ATK 16 (final) |
 | **15** | Book of Max HP | max HP 70 → 140, and Blessed refills it |
 | **18** | Book of Max HP ×2 | max HP 145 → 580, and Blessed refills it |
@@ -71,7 +71,6 @@ Both editions use the same menus and keys. Before each fight you get the level m
 | 23 | Chicken | |
 | 27, 29, 30 | Book of Healing | refill before the big fights |
 
-Don't panic in run 3: level 6 starts with **15 HP** and level 27 with **13 HP**. That's normal. The next Blessed refill or Healing book covers it, and since nothing is random it's the same every time.
 
 ## Why it works
 
