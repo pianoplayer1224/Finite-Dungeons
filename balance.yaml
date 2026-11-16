@@ -1,0 +1,135 @@
+# Finite Dungeons balance values: the one place to change them.
+#
+# After editing, run:   python3 tools/balance.py
+# It writes these numbers into pc/FiniteDungeons.py, calc/fdval.py and
+# godot/scripts/core/values.gd, prints each change as old -> new, and runs the
+# edition checks. Don't edit the values in those files by hand: the next run
+# overwrites them. Git history is the record of past balance changes.
+#
+# Keep each value's type: whole numbers stay whole, decimals stay decimals
+# (write 0.0, not 0), lists keep their length, tables keep their keys.
+# The comment next to each value says what it does.
+
+# --- Runs and monsters ---
+FINAL_LEVEL: 30            # beat this level to win (save codes store at most 31)
+START_HP: 10               # max HP and HP when a run starts
+START_STAT: 1              # ATK, DEF and SPD when a run starts
+START_MONEY: 0             # money when a run starts
+MONSTER_GROWTH: 1          # a level-L monster has L x this ATK, DEF and SPD,
+MONSTER_EXTRA_HP: 4        #   and that + this many HP
+WIN_MONEY: 4               # money for every monster beaten
+MIN_DAMAGE: 1              # every hit does at least this much
+
+# --- Shop: prices and limits ---
+PRICE:
+  sword: 2                 # +ATK (not sold with the E-Sword or the Drone)
+  shield: 2                # +DEF
+  boots: 2                 # +SPD (not sold with Cursed Socks)
+  chicken: 2               # heals, see Chickens below
+  book: 3                  # every kind: Attack, Defence, Speed, Max HP, Healing
+  battery: 2               # E-Sword only: counter-attacks
+  ink: 9                   # Forbidden Book only: kills the next monster outright
+  elixir: 2                # Devotion only, see Artefacts below
+LIMIT:                     # how many you can buy in one run
+  sword: 1
+  shield: 1
+  boots: 1
+  book: 3                  # of EACH kind of book
+  battery: 5
+  ink: 10                  # one Forbidden Book message per ink: more than 10 needs new messages
+  elixir: 1                # per shop visit, not per run
+FLAT_ITEM_GAIN: 1          # Sword / Shield / Boots add this to ATK / DEF / SPD
+BOOK_MULTIPLIER: 2         # Books of Attack / Defence / Speed / Max HP multiply that stat
+                           #   (game text says "double")
+
+# --- Chickens (the K*C membership card relics change them) ---
+CHICKEN_HEAL:              # HP a chicken heals; gold and diamond cards heal to max
+  plain: 5                 #   no card
+  bk: 8                    #   bronze card
+  sk: 10                   #   silver card
+CHICKEN_LIMIT:             # chickens per run; gold and diamond cards: no limit
+  plain: 1
+  bk: 2
+  sk: 4
+CHICKEN_MIN_MISSING: 5     # no card/bronze/silver: sold only with this much HP missing
+
+# --- Relics ---
+REVIVE_HP: 1               # Picture of Family: revives you once, at this HP
+BLESSED_EVERY: 3           # Blessed Emblem: after every this-many levels,
+BLESSED_MAX_HP: 5          #   gain this much max HP, then a full heal;
+BLESSED_START_HP_LOSS: 1   #   lose this much HP when a run starts with it packed
+INK_HOLD: 1                # Forbidden Book: inks you can carry at once
+ESWORD_ATK: 1              # E-Sword: ATK it gives when equipped
+BATTERY_COUNTERS: 1        # E-Sword: counter-attacks per battery
+MEOWTON_DEF_LOSS: 1        # Meowton's 2nd lawsuit: DEF lost when equipped
+
+# --- RAY-24 Drone: 4 upgrade tracks, 4 stages each ---
+DRONE_SLOTS: 6             # paid upgrades per run, all tracks together
+DRONE_STAGES: 4            # stages per track (fixed: the game's texts have 4)
+DRONE_STAGE_COSTS:         # price of each stage
+  - [1, 2, 3, 4]           # track 1 Hardpoint munition upgrade: drone ATK
+  - [2, 2, 2, 4]           # track 2 Alpha strike: missiles at the start of fights
+  - [2, 2, 2, 3]           # track 3 FARP Protocol: healing after each win
+  - [2, 2, 2, 3]           # track 4 Materiel Recovery: money after each win
+DRONE_T1_ATK_GAIN: [1, 2, 2, 8]   # track 1: drone ATK each stage adds
+DRONE_MISSILE_MULTIPLIER: 2       # track 2 from stage 2: a missile hits for drone ATK x this
+                                  #   (game text says "double")
+DRONE_STAGE4_MISSILES: 3          # track 2 stage 4: missiles per fight, each
+DRONE_SHRED_MULTIPLIER: 2         #   cutting monster DEF by its damage x this
+DRONE_HEALS: [10, 20, 50]         # track 3 stages 1-3: HP healed after a win (they add up)
+DRONE_HEAL_MULTIPLIER: 2          # track 3 stage 4: all healing x this (game text says "doubles")
+DRONE_T4_MONEY: [10, 16]          # track 4 stages 2-3: money after a win (stage 1 gives drone ATK)
+DRONE_INCOME_MULTIPLIER: 2        # track 4 stage 4: all income x this (game text says "double")
+
+# --- Artefacts ---
+ELIXIR_SPD_LOSS: 1         # Devotion's Elixir: lose this much SPD and [Elixirs bought] max HP,
+ELIXIR_EXTRA_SPD: 9        #   gain this much extra SPD,
+ELIXIR_FIGHTS: 3           #   wearing off over this many fights:
+ELIXIR_SPD_DECAY: 3        #   this much extra SPD lost after each of them
+SOCKS_MAX_HP: 5            # Cursed Socks: activate at this HP or less
+AR_MAX_HP_LOSS: 5          # Abyssal Rad-Blood Oath: the water sample (once per run) costs this max HP
+AR_LEVEL_STEP: 5           #   and pays (levels beaten // this)
+AR_POWER: 4                #   ** this money (2, 3 or 4 have a superscript sign)
+COINPOT_STEP: 3            # Alchemist's Coinpot: every this-much money left when you leave the shop
+COINPOT_PAY: 2             #   pays this much money before the fight
+VITALITY_HP: 50            # Heart of Excessive Vitality: start with this max HP and HP,
+VITALITY_MONEY_LOSS: 0.10  #   lose this share of your money before each fight,
+VITALITY_DRAIN_DIVISOR: 1  #   then lose HP = money / this
+CARRIER_RELICS: 3          # Carrier of Legend: relics packed (switches = this - 1);
+CARRIER_RESET: 1           #   HP, ATK, DEF and SPD drop to this at a switch
+
+# --- Unlocks: highest level beaten needed ---
+# The menu order and the set of keys are fixed by the game code: change levels only.
+RELIC_UNLOCKS:
+  family: 0                # Picture of Family
+  blessed: 0               # Blessed Emblem
+  forbidden: 0             # Forbidden Book
+  e-sword: 999999          # Automatic Counter E-Sword: kept out of the game until it is balanced
+  bk: 2                    # K*C bronze membership card
+  sk: 6                    # K*C silver membership card
+  yd: 8                    # RAY-24 Drone
+  gk: 10                   # K*C gold membership card
+  meowton: 15              # Meowton's Second Lawsuit
+  dk: 30                   # K*C diamond membership card
+ARTEFACT_UNLOCKS:
+  devotion: 3              # The Damned Proof of Devotion
+  socks: 5                 # Cursed Socks
+  ar: 12                   # Abyssal Rad-Blood Oath
+  coinpot: 18              # Alchemist's Coinpot
+  carrier: 20              # Carrier of Legend
+  vitality: 20             # Heart of Excessive Vitality
+
+# --- Achievements ---
+RICH_MONEY: 32000000       # "you can't take it with you": die holding this much
+FEW_RUNS: 3                # "The real game": beat FINAL_LEVEL within this many runs
+HARD_MODE_LEVEL: 2         # "hard mode": die on this level with Meowton + Cursed Socks
+
+# --- Interface (not balance) ---
+MENU_PAUSE: 0.3            # seconds of pause before the shop and main menu redraw
+TEXT_COLOURS:              # RGB colour of each kind of text (both screens are white)
+  muted: [160, 160, 160]   # greyed-out items, flavour lines, the fight forecast
+  story: [100, 100, 100]   # story scenes
+  good: [0, 128, 0]        # your hits, heals, purchases, wins
+  bad: [190, 0, 0]         # monster hits, drains, deaths
+  warning: [190, 0, 0]     # blocked purchases, invalid input
+COLOURS_ON: true           # colours at start; players can switch them off in-game

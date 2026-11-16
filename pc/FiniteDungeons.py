@@ -35,9 +35,10 @@ os.system("color F0")
 # --- VALUES START ---
 # Every number that decides how the game plays. The engine, the shop
 # lines, the descriptions and the library all read these names, so
-# changing a value here changes the rules AND the text explaining them.
-# This block is identical in "FiniteDungeons.py" and calc/fdval.py:
-# change both (CLAUDE.md has the check). Plain ASCII only.
+# changing a value changes the rules AND the text explaining them.
+# Generated from balance.yaml by tools/balance.py, identically in
+# "FiniteDungeons.py" and calc/fdval.py: edit balance.yaml, not this
+# block (the next run overwrites it). Plain ASCII only.
 
 # --- Runs and monsters ---
 FINAL_LEVEL = 30           # beat this level to win (save codes store at most 31)

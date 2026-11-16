@@ -1,0 +1,135 @@
+# --- VALUES START ---
+# Every number that decides how the game plays. The engine, the shop
+# lines, the descriptions and the library all read these names, so
+# changing a value changes the rules AND the text explaining them.
+# Generated from balance.yaml by tools/balance.py, identically in
+# "FiniteDungeons.py" and calc/fdval.py: edit balance.yaml, not this
+# block (the next run overwrites it). Plain ASCII only.
+
+# --- Runs and monsters ---
+FINAL_LEVEL = {{FINAL_LEVEL}}{{pad:27}}# beat this level to win (save codes store at most 31)
+START_HP = {{START_HP}}{{pad:27}}# max HP and HP when a run starts
+START_STAT = {{START_STAT}}{{pad:27}}# ATK, DEF and SPD when a run starts
+START_MONEY = {{START_MONEY}}{{pad:27}}# money when a run starts
+MONSTER_GROWTH = {{MONSTER_GROWTH}}{{pad:27}}# a level-L monster has L x this ATK, DEF and SPD,
+MONSTER_EXTRA_HP = {{MONSTER_EXTRA_HP}}{{pad:27}}#   and that + this many HP
+WIN_MONEY = {{WIN_MONEY}}{{pad:27}}# money for every monster beaten
+MIN_DAMAGE = {{MIN_DAMAGE}}{{pad:27}}# every hit does at least this much
+
+# --- Shop: prices and limits ---
+PRICE = {
+    "sword": {{PRICE.sword}},{{pad:27}}# ATK (not sold with the E-Sword or the Drone)
+    "shield": {{PRICE.shield}},{{pad:27}}# DEF
+    "boots": {{PRICE.boots}},{{pad:27}}# SPD (not sold with Cursed Socks)
+    "chicken": {{PRICE.chicken}},{{pad:27}}# heals, see Chickens below
+    "book": {{PRICE.book}},{{pad:27}}# every kind: Attack, Defence, Speed, Max HP, Healing
+    "battery": {{PRICE.battery}},{{pad:27}}# E-Sword only: counter-attacks
+    "ink": {{PRICE.ink}},{{pad:27}}# Forbidden Book only: kills the next monster outright
+    "elixir": {{PRICE.elixir}},{{pad:27}}# Devotion only, see Artefacts below
+}
+LIMIT = {                  # how many you can buy in one run
+    "sword": {{LIMIT.sword}},
+    "shield": {{LIMIT.shield}},
+    "boots": {{LIMIT.boots}},
+    "book": {{LIMIT.book}},{{pad:27}}# of EACH kind of book
+    "battery": {{LIMIT.battery}},
+    "ink": {{LIMIT.ink}},{{pad:27}}# one FORBIDDEN_MESSAGES line per ink: add lines if raised
+    "elixir": {{LIMIT.elixir}},{{pad:27}}# per shop visit, not per run
+}
+FLAT_ITEM_GAIN = {{FLAT_ITEM_GAIN}}{{pad:27}}# Sword / Shield / Boots add this to ATK / DEF / SPD
+BOOK_MULTIPLIER = {{BOOK_MULTIPLIER}}{{pad:27}}# Books of Attack / Defence / Speed / Max HP multiply
+                           #   that stat (the Max HP book says "double")
+
+# --- Chickens (the K*C membership card relics change them) ---
+CHICKEN_HEAL = {"plain": {{CHICKEN_HEAL.plain}}, "bk": {{CHICKEN_HEAL.bk}}, "sk": {{CHICKEN_HEAL.sk}}}{{pad:48}}# gold and diamond cards heal to max
+CHICKEN_LIMIT = {"plain": {{CHICKEN_LIMIT.plain}}, "bk": {{CHICKEN_LIMIT.bk}}, "sk": {{CHICKEN_LIMIT.sk}}}{{pad:48}}# gold and diamond cards: no limit
+CHICKEN_MIN_MISSING = {{CHICKEN_MIN_MISSING}}{{pad:27}}# plain/bronze/silver: sold only with this much HP missing
+
+# --- Relics ---
+REVIVE_HP = {{REVIVE_HP}}{{pad:27}}# Picture of Family: revives you once, at this HP
+BLESSED_EVERY = {{BLESSED_EVERY}}{{pad:27}}# Blessed Emblem: after every {{= ordinal(BLESSED_EVERY)}} level,
+BLESSED_MAX_HP = {{BLESSED_MAX_HP}}{{pad:27}}#   +{{BLESSED_MAX_HP}} max HP, then a full heal;
+BLESSED_START_HP_LOSS = {{BLESSED_START_HP_LOSS}}{{pad:27}}#   -{{BLESSED_START_HP_LOSS}} HP when a run starts with it packed
+INK_HOLD = {{INK_HOLD}}{{pad:27}}# Forbidden Book: inks you can carry at once
+ESWORD_ATK = {{ESWORD_ATK}}{{pad:27}}# E-Sword: ATK it gives when equipped
+BATTERY_COUNTERS = {{BATTERY_COUNTERS}}{{pad:27}}# E-Sword: counter-attacks per battery
+MEOWTON_DEF_LOSS = {{MEOWTON_DEF_LOSS}}{{pad:27}}# Meowton's 2nd lawsuit: DEF lost when equipped
+
+# --- RAY-24 Drone: {{= len(DRONE_STAGE_COSTS)}} upgrade tracks, {{DRONE_STAGES}} stages each ---
+DRONE_SLOTS = {{DRONE_SLOTS}}{{pad:27}}# paid upgrades per run, all tracks together
+DRONE_STAGES = {{DRONE_STAGES}}{{pad:27}}# stages per track (the lists below have one per stage)
+DRONE_STAGE_COSTS = [      # price of each stage
+    {{DRONE_STAGE_COSTS.0}},{{pad:27}}# track 1 Hardpoint munition upgrade: drone ATK
+    {{DRONE_STAGE_COSTS.1}},{{pad:27}}# track 2 Alpha strike: missiles at the start of fights
+    {{DRONE_STAGE_COSTS.2}},{{pad:27}}# track 3 FARP Protocol: healing after each win
+    {{DRONE_STAGE_COSTS.3}},{{pad:27}}# track 4 Materiel Recovery: money after each win
+]
+DRONE_T1_ATK_GAIN = {{DRONE_T1_ATK_GAIN}}{{pad:34}}# track 1: drone ATK each stage adds
+DRONE_MISSILE_MULTIPLIER = {{DRONE_MISSILE_MULTIPLIER}}{{pad:34}}# track 2 from stage 2: a missile hits for drone
+                                  #   ATK x this (the text says "double")
+DRONE_STAGE4_MISSILES = {{DRONE_STAGE4_MISSILES}}{{pad:34}}# track 2 stage 4: missiles per fight, each
+DRONE_SHRED_MULTIPLIER = {{DRONE_SHRED_MULTIPLIER}}{{pad:34}}#   cutting monster DEF by its damage x this
+DRONE_HEALS = {{DRONE_HEALS}}{{pad:34}}# track 3 stages 1-3: HP healed after a win
+                                  #   (they add up: {{= ', then '.join(map(str, cumsum(DRONE_HEALS)))}})
+DRONE_HEAL_MULTIPLIER = {{DRONE_HEAL_MULTIPLIER}}{{pad:34}}# track 3 stage 4: all healing x this ("doubles")
+DRONE_T4_MONEY = {{DRONE_T4_MONEY}}{{pad:34}}# track 4 stages 2-3: money after a win
+                                  #   (stage 1 gives money = drone ATK)
+DRONE_INCOME_MULTIPLIER = {{DRONE_INCOME_MULTIPLIER}}{{pad:34}}# track 4 stage 4: all income x this ("double")
+
+# --- Artefacts ---
+ELIXIR_SPD_LOSS = {{ELIXIR_SPD_LOSS}}{{pad:27}}# Devotion's Elixir: -{{ELIXIR_SPD_LOSS}} SPD and -[Elixirs bought] max HP,
+ELIXIR_EXTRA_SPD = {{ELIXIR_EXTRA_SPD}}{{pad:27}}#   +{{ELIXIR_EXTRA_SPD}} extra SPD,
+ELIXIR_FIGHTS = {{ELIXIR_FIGHTS}}{{pad:27}}#   wearing off over the next {{ELIXIR_FIGHTS}} fights:
+ELIXIR_SPD_DECAY = {{ELIXIR_SPD_DECAY}}{{pad:27}}#   -{{ELIXIR_SPD_DECAY}} extra SPD after each of them
+SOCKS_MAX_HP = {{SOCKS_MAX_HP}}{{pad:27}}# Cursed Socks: activate at this HP or less
+AR_MAX_HP_LOSS = {{AR_MAX_HP_LOSS}}{{pad:27}}# Abyssal Rad-Blood Oath: the water sample (once per run)
+AR_LEVEL_STEP = {{AR_LEVEL_STEP}}{{pad:27}}#   costs {{AR_MAX_HP_LOSS}} max HP and pays
+AR_POWER = {{AR_POWER}}{{pad:27}}#   (levels beaten // {{AR_LEVEL_STEP}}) ** this money
+COINPOT_STEP = {{COINPOT_STEP}}{{pad:27}}# Alchemist's Coinpot: every {{COINPOT_STEP}} money left when you leave
+COINPOT_PAY = {{COINPOT_PAY}}{{pad:27}}#   the shop pays {{COINPOT_PAY}} money before the fight
+VITALITY_HP = {{VITALITY_HP}}{{pad:27}}# Heart of Excessive Vitality: start with {{VITALITY_HP}} max HP and HP,
+VITALITY_MONEY_LOSS = {{VITALITY_MONEY_LOSS}}{{pad:27}}#   lose this share of your money before each fight,
+VITALITY_DRAIN_DIVISOR = {{VITALITY_DRAIN_DIVISOR}}{{pad:27}}#   then lose HP = money / this
+CARRIER_RELICS = {{CARRIER_RELICS}}{{pad:27}}# Carrier of Legend: relics packed (switches = this - 1);
+CARRIER_RESET = {{CARRIER_RESET}}{{pad:27}}#   HP, ATK, DEF and SPD drop to this at a switch
+
+# --- Unlocks: (key, highest level beaten needed). List order = menu order. ---
+RELIC_UNLOCKS = [
+    ("family", {{RELIC_UNLOCKS.family}}),
+    ("blessed", {{RELIC_UNLOCKS.blessed}}),
+    ("forbidden", {{RELIC_UNLOCKS.forbidden}}),
+    ("e-sword", {{RELIC_UNLOCKS.e-sword}}),{{pad:27}}# kept out of the game until it is balanced
+    ("bk", {{RELIC_UNLOCKS.bk}}),
+    ("sk", {{RELIC_UNLOCKS.sk}}),
+    ("yd", {{RELIC_UNLOCKS.yd}}),
+    ("gk", {{RELIC_UNLOCKS.gk}}),
+    ("meowton", {{RELIC_UNLOCKS.meowton}}),
+    ("dk", {{RELIC_UNLOCKS.dk}}),
+]
+ARTEFACT_UNLOCKS = [
+    ("devotion", {{ARTEFACT_UNLOCKS.devotion}}),
+    ("socks", {{ARTEFACT_UNLOCKS.socks}}),
+    ("ar", {{ARTEFACT_UNLOCKS.ar}}),
+    ("coinpot", {{ARTEFACT_UNLOCKS.coinpot}}),
+    ("carrier", {{ARTEFACT_UNLOCKS.carrier}}),
+    ("vitality", {{ARTEFACT_UNLOCKS.vitality}}),
+]
+
+# --- Achievements ---
+RICH_MONEY = {{RICH_MONEY}}{{pad:27}}# "you can't take it with you": die holding this much
+FEW_RUNS = {{FEW_RUNS}}{{pad:27}}# "The real game": beat FINAL_LEVEL within this many runs
+HARD_MODE_LEVEL = {{HARD_MODE_LEVEL}}{{pad:27}}# "hard mode": die on this level with Meowton + Cursed Socks
+
+# --- Interface ---
+MENU_PAUSE = {{MENU_PAUSE}}{{pad:27}}# seconds of pause before the shop and main menu redraw
+TEXT_COLOURS = {           # RGB colour of each kind of text (both screens are white)
+    "muted": {{TEXT_COLOURS.muted|tuple}},{{pad:33}}# greyed-out items, flavour lines, the fight forecast
+    "story": {{TEXT_COLOURS.story|tuple}},{{pad:33}}# story scenes
+    "good": {{TEXT_COLOURS.good|tuple}},{{pad:33}}# your hits, heals, purchases, wins
+    "bad": {{TEXT_COLOURS.bad|tuple}},{{pad:33}}# monster hits, drains, deaths
+    "warning": {{TEXT_COLOURS.warning|tuple}},{{pad:33}}# blocked purchases, invalid input
+}                          # anything else (menus, stats, headings, money) is
+                           # the normal text colour. Money lines are marked
+                           # "money": add a "money" entry here to colour them.
+COLOURS_ON = {{COLOURS_ON}}{{pad:27}}# colours at start; players can switch them off in-game
+# --- VALUES END ---

@@ -1,10 +1,11 @@
 class_name Values
 extends RefCounted
-## Python section 0: VALUES. A mirror of the block between "# --- VALUES START ---" and
-## "# --- VALUES END ---" in FiniteDungeons.py: same names, same numbers. The engine, the shop
-## lines, the descriptions and the library all read these, so changing a value here changes the
-## rules AND the text explaining them. Change the Python first, then copy it here;
-## tests/parity checks every constant against the Python.
+## Python section 0: VALUES. Generated from balance.yaml by tools/balance.py, like the block
+## between "# --- VALUES START ---" and "# --- VALUES END ---" in FiniteDungeons.py: same
+## names, same numbers. Edit balance.yaml, not this file (the next run overwrites it). The
+## engine, the shop lines, the descriptions and the library all read these, so changing a value
+## changes the rules AND the text explaining them. tests/parity checks every constant against
+## the Python.
 ## Python tuples become 2- or 3-element arrays.
 
 # --- Runs and monsters ---
