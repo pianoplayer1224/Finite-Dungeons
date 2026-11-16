@@ -1,6 +1,6 @@
 # Finite Dungeons balance
 
-**Balance issue 3**, 2026-10-21
+**Balance issue 4**, 2026-11-09
 
 Every value Finite Dungeons plays by, written out to read and to compare between ports of the
 game. Each value goes by the name the original game gives it, so any port's numbers can be
@@ -103,10 +103,10 @@ Four upgrade tracks of four stages each. `DRONE_STAGE_COSTS`, the price of each 
 | Name | Value | What it does |
 | --- | --- | --- |
 | `ELIXIR_SPD_LOSS` | 1 | The Damned Proof of Devotion's elixir: -1 SPD and -[elixirs bought] max HP... |
-| `ELIXIR_EXTRA_SPD` | 6 | ...+6 extra SPD... |
+| `ELIXIR_EXTRA_SPD` | 9 | ...+9 extra SPD... |
 | `ELIXIR_FIGHTS` | 3 | ...wearing off over the next 3 fights... |
-| `ELIXIR_SPD_DECAY` | 2 | ...-2 extra SPD after each of them. |
-| `SOCKS_MAX_HP` | 3 | Cursed Socks: activate at this HP or less. |
+| `ELIXIR_SPD_DECAY` | 3 | ...-3 extra SPD after each of them. |
+| `SOCKS_MAX_HP` | 5 | Cursed Socks: activate at this HP or less. |
 | `AR_MAX_HP_LOSS` | 5 | Abyssal Rad-Blood Oath: the water sample (once per run) costs 5 max HP... |
 | `AR_LEVEL_STEP` | 5 | ...and pays (levels beaten ÷ 5, rounded down)... |
 | `AR_POWER` | 4 | ...to this power, in money. |
@@ -131,7 +131,7 @@ The highest level you need to have beaten. The order is the menu order.
 | `forbidden` | Forbidden Book | 0 |
 | `e-sword` | Automatic Counter E-Sword | 999999 (kept out of the game until it is balanced) |
 | `bk` | K\*C bronze membership card | 2 |
-| `sk` | K\*C silver membership card | 7 |
+| `sk` | K\*C silver membership card | 6 |
 | `yd` | RAY-24 Drone | 8 |
 | `gk` | K\*C gold membership card | 10 |
 | `meowton` | Meowton's Second Lawsuit | 15 |
@@ -142,7 +142,7 @@ The highest level you need to have beaten. The order is the menu order.
 | Key | Artefact | Level |
 | --- | --- | --- |
 | `devotion` | The Damned Proof of Devotion | 3 |
-| `socks` | Cursed Socks | 6 |
+| `socks` | Cursed Socks | 5 |
 | `ar` | Abyssal Rad-Blood Oath | 12 |
 | `coinpot` | Alchemist's Coinpot | 18 |
 | `carrier` | Carrier of Legend | 20 |
@@ -152,7 +152,7 @@ The highest level you need to have beaten. The order is the menu order.
 
 | Name | Value | What it does |
 | --- | --- | --- |
-| `RICH_MONEY` | 25000000 | "you can't take it with you": die holding this much money. |
+| `RICH_MONEY` | 32000000 | "you can't take it with you": die holding this much money. |
 | `FEW_RUNS` | 3 | "The real game": beat `FINAL_LEVEL` within this many runs. |
 | `HARD_MODE_LEVEL` | 2 | "hard mode": die on this level with Meowton's Second Lawsuit and Cursed Socks. |
 
@@ -181,6 +181,7 @@ card.
 
 | Issue | Date | Changes |
 | --- | --- | --- |
+| 4 | 2026-11-09 | `ELIXIR_EXTRA_SPD` 6 → 9.<br>`ELIXIR_SPD_DECAY` 2 → 3.<br>`SOCKS_MAX_HP` 3 → 5.<br>`RELIC_UNLOCKS`: `sk` 7 → 6.<br>`ARTEFACT_UNLOCKS`: `socks` 6 → 5.<br>`RICH_MONEY` 25000000 → 32000000. |
 | 3 | 2026-10-21 | `MENU_PAUSE` 0.5 → 0.3. Interface only: the terminal game had paused 0.3 s since 2026-10-16, which this list had missed. |
 | 2 | 2026-10-21 | `PRICE["ink"]` 10 → 9.<br>`PRICE["elixir"]` 1 → 2.<br>`CHICKEN_HEAL["bk"]` 7 → 8, `CHICKEN_HEAL["sk"]` 7 → 10.<br>`CHICKEN_LIMIT["bk"]` 1 → 2, `CHICKEN_LIMIT["sk"]` 3 → 4.<br>`DRONE_STAGE_COSTS`, track 4 stage 4: 4 → 3.<br>`DRONE_HEALS` [5, 10, 25] → [10, 20, 50] (in all: 5, 15, 40 → 10, 30, 80).<br>`DRONE_T4_MONEY` [6, 12] → [10, 16] (in all: 6, 18 → 10, 26).<br>`AR_POWER` 3 → 4.<br>`VITALITY_MONEY_LOSS` 0.25 → 0.10.<br>`VITALITY_DRAIN_DIVISOR` 2 → 1 (the description now reads "lose HP equal to money").<br>`RELIC_UNLOCKS`: `bk` 4 → 2, `gk` 12 → 10. |
 | 1 | 2026-10-17 | The original values of Timothy Tang's Finite Dungeons. |
