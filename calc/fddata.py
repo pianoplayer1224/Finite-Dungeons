@@ -1,6 +1,4 @@
-# fddata.py - names and texts for Finite Dungeons (fx-CG100).
-# Mirrors section 1 (CONTENT DATA) of "FiniteDungeons.py" in ASCII.
-# Numbers in the texts come from fdval.py.
+# Port of section 1 (CONTENT DATA) of FiniteDungeons.py.
 
 from fdval import *
 
@@ -28,7 +26,6 @@ ARTEFACT_MENU_NAMES = {
     'vitality': 'Heart of Excessive Vitality (Protein shake heath package plan)',
 }
 
-# Derived from fdval for the texts (not values of their own).
 UNLOCK_LEVEL = dict(RELIC_UNLOCKS + ARTEFACT_UNLOCKS)
 VITALITY_PERCENT = int(round(VITALITY_MONEY_LOSS * 100))
 AR_POWER_SIGN = "^" + S(AR_POWER)
@@ -59,7 +56,7 @@ ACHIEVEMENT_DISPLAY = [
 
 DRONE_TRACK_NAMES = ['Hardpoint munition upgrade', 'Alpha strike', 'FARP Protocol', 'Materiel Recovery']
 
-# The descriptions keep {atk} / {atk2} for drone_menu() to fill in.
+# {atk}/{atk2} are filled in by drone_menu().
 _C = DRONE_STAGE_COSTS
 DRONE_STAGE_DESCS = [
     [

@@ -1,10 +1,5 @@
 # findun.py - Finite Dungeons for the Casio fx-CG100 (MicroPython 1.9.4).
-# Run this file from the Python app. Every calc/*.py file must sit next to
-# it (the 300-line-per-file limit splits the game up).
-# Type menu numbers with the digit keys, DEL deletes, EXE enters,
-# UP/DOWN scroll. Save codes are typed in the Shell (they need letters).
-# Before each fight: 1 Shop, 2 Stats, 3 Options, 4 Quit, 0 Start fight.
-#
+# Run this file from the Python app; every calc/*.py file must sit next to it.
 # Finite Dungeons - Demo Version, created by Timothy
 # Copyright (c) 2026 Timothy Tang
 
@@ -125,7 +120,6 @@ def run(profile):
     else:
         player = Player(choose_relic(relics), artefact)
 
-    # Start-of-run effects
     if player.relic == "e-sword":
         player.atk += ESWORD_ATK
         say("You have your own sword, not needing the shop one! +" + S(ESWORD_ATK) + " ATK!")
@@ -135,7 +129,6 @@ def run(profile):
     if player.relic == "meowton":
         player.df -= MEOWTON_DEF_LOSS
         say("A law suit is not one that provides defence ability, DEF-" + S(MEOWTON_DEF_LOSS))
-    # Blessed Emblem pinches you if it's anywhere in your luggage.
     blessed_packed = ("blessed" in player.relics) if player.relics else (player.relic == "blessed")
     if blessed_packed:
         player.hp -= BLESSED_START_HP_LOSS
@@ -145,7 +138,6 @@ def run(profile):
         result = pre_fight(player, level, profile)
         status()
         if result == "quit":
-            # Quitting ends the run like a death would: levels beaten count.
             profile.highest = max(profile.highest, level - 1)
             say("\nYou left the dungeon. Highest: " + S(profile.highest))
             shell("Save code:", save_code(profile))
@@ -226,8 +218,7 @@ def prompt_save_code(profile, cancel_hint):
 
 
 def main(profile):
-    # Ask before anything is drawn: the Shell's input() is the only way to
-    # type letters, and this is the moment it is known to work.
+    # Ask before drawing: the Shell's input() is the only way to type letters.
     prompt_save_code(profile, "start a new game")
     say("Finite Dungeons by Timothy")
     say("Copyright (c) 2026 Timothy Tang")
@@ -268,7 +259,7 @@ profile = Profile()
 try:
     main(profile)
 except QuitGame:
-    pass   # the save code is already in the Shell
+    pass
 except KeyboardInterrupt:
     # AC stops the program; leave the save code in the Shell.
     print("Save code: " + save_code(profile))

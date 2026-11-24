@@ -1,6 +1,3 @@
-# fdtxt1.py - game messages for Finite Dungeons (fx-CG100).
-# Mirrors the PC game's messages in ASCII; numbers come from fdval.py.
-
 from fdval import *
 
 S = str

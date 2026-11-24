@@ -1,6 +1,4 @@
-# fdshop.py - shop purchase engine for Finite Dungeons (fx-CG100).
-# Hand-ported from section 4 (ENGINE) of "FiniteDungeons.py": pure logic,
-# no I/O. Each function mutates state and returns event dicts for fdevent.
+# Port of section 4 (ENGINE) of FiniteDungeons.py: shop purchases.
 
 from fdval import *
 
@@ -155,7 +153,6 @@ def buy_chicken(player, ac):
                         "cost": PRICE["chicken"], "healed": healed})
 
     elif variant == "dk":
-        # Diamond card removes ALL purchase conditions - including having the money.
         healed = player.max_hp - player.hp
         player.hp = player.max_hp
         player.money -= PRICE["chicken"]
@@ -174,7 +171,7 @@ def buy_chicken(player, ac):
             out.append(blocked("chicken", "hp_full", variant=variant))
         else:
             heal = CHICKEN_HEAL["plain"]
-            if player.drone.stages[2] == 4:  # FARP stage 4 multiplies all healing
+            if player.drone.stages[2] == 4:
                 heal *= DRONE_HEAL_MULTIPLIER
             healed = min(player.hp + heal, player.max_hp) - player.hp
             player.hp += healed

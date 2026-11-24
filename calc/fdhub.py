@@ -1,8 +1,3 @@
-# fdhub.py - the pre-fight menu for Finite Dungeons (fx-CG100 only).
-# Replaces the PC game's all-in-one shop screen, which is taller than the
-# calculator's 17 rows: before each fight you pick Shop, Stats, Options,
-# Quit or Start fight, and only that screen is printed.
-
 from fdval import *
 from fdterm import say, ask, shell, status, paint, state
 from fdmodel import create_monster, save_code
@@ -16,7 +11,6 @@ class QuitGame(Exception):
 
 
 def stats_screen(player, level):
-    # The PC shop's stats block, on its own screen.
     say("\n--- Player Stats ---")
     say("HP: " + S(player.hp) + "/" + S(player.max_hp))
     for label, base, total in (("ATK", player.atk, player.total_atk()),
@@ -112,7 +106,6 @@ def pre_fight(player, level, profile):
             if confirm_quit(player, level):
                 return "quit"
         elif choice == "0":
-            # Coinpot charges up the moment you leave the shop.
             if player.artefact == "coinpot" and player.money >= COINPOT_STEP:
                 player.coinpot_bonus += (player.money // COINPOT_STEP) * COINPOT_PAY
             if player.artefact == "vitality":

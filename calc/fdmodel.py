@@ -1,5 +1,4 @@
-# fdmodel.py - game state and save codes for Finite Dungeons (fx-CG100).
-# Hand-ported from sections 2 (MODEL) and 3 (SAVE) of "FiniteDungeons.py".
+# Port of sections 2 (MODEL) and 3 (SAVE) of FiniteDungeons.py.
 
 from fdval import *
 from fddata import ACH_BIT_ORDER, SAVE_ALPHABET
@@ -47,7 +46,6 @@ class Player(Entity):
         Entity.__init__(self, START_HP, START_STAT, START_STAT, START_STAT)
         self.money = START_MONEY
         self.artefact = artefact
-        # Carrier of Legend holds 3 relics; only one is active at a time.
         if artefact == "carrier":
             self.relics = list(relic)
             self.active_relic_index = 0
@@ -55,27 +53,26 @@ class Player(Entity):
         else:
             self.relics = None
             self.relic = relic
-        self.switches = 0            # Carrier: relic switches performed (max CARRIER_RELICS - 1)
+        self.switches = 0
 
-        self.revive_used = False     # Picture of Family
+        self.revive_used = False
         self.revived_this_fight = False
-        self.forbidden_ink = 0       # Forbidden Book: ink currently held (max INK_HOLD)
-        self.forbidden_ink_total = 0  # Forbidden Book: total inks ever bought (max LIMIT["ink"])
-        self.counters = 0            # E-Sword battery counters
+        self.forbidden_ink = 0
+        self.forbidden_ink_total = 0
+        self.counters = 0
         self.used_e_sword_before = False
-        self.coinpot_bonus = 0       # Alchemist's Coinpot pending payout
-        self.elixir_timers = []      # one ELIXIR_FIGHTS-fight countdown per elixir drunk
+        self.coinpot_bonus = 0
+        self.elixir_timers = []
         self.bought_elixir_this_visit = 0
         self.books = {"atk": 0, "def": 0, "hp": 0, "spd": 0, "heal": 0}
         self.bought = {"sword": 0, "shield": 0, "boots": 0, "chicken": 0,
                        "battery": 0, "elixir": 0}
-        self.socks_sealed = False    # Cursed Socks activated
-        self.pending_hp_multiplier = 1  # Book of Max HP applies after next fight
-        self.ar_used = False         # Abyssal Rad-Blood Oath: once per run
+        self.socks_sealed = False
+        self.pending_hp_multiplier = 1
+        self.ar_used = False
         self.vitality_drain_pending = False
         self.drone = Drone()
 
-    # Totals are COMPUTED, never hand-maintained (see the PC version).
     # Methods, not properties: the calculator has no property().
     def total_atk(self):
         total = self.atk + self.extra_atk
@@ -103,17 +100,14 @@ def create_monster(level):
     return Entity(stat + MONSTER_EXTRA_HP, stat, stat, stat)
 
 
-# ---- Save codes ----------------------------------------------------------
-# Same format as every PC version: value = runs<<13 | highest<<8 | ach_bits,
-# base-61 (no capital I), always 5 characters. The largest value is about
-# 2**23, so no big-integer support is needed.
+# value = runs<<13 | highest<<8 | ach_bits, base-61 (no capital I), 5 characters.
 
 def save_code(profile):
     bits = 0
     for key in ACH_BIT_ORDER:
         bits = (bits << 1) | (1 if profile.ac[key] else 0)
 
-    # load_code() rejects runs > 1024; cap here so a long save can't self-corrupt.
+    # load_code() rejects runs > 1024.
     runs = min(profile.runs, 1024)
     value = (((runs << 5) | profile.highest) << 8) | bits
 

@@ -1,8 +1,4 @@
-# fdui.py - shop screens for Finite Dungeons (fx-CG100).
-# Hand-ported from section 5 (TERMINAL UI) of "FiniteDungeons.py":
-# print() -> fdterm.say(), input() -> fdterm.ask(), ANSI grey -> G/R marks.
-# Calculator layout: the shop is a submenu of the pre-fight menu (fdhub),
-# so the 17-row screen is not filled with stats on every visit.
+# Port of section 5 (TERMINAL UI) of FiniteDungeons.py: shop screens.
 
 from fdterm import say, ask, wait, status, G, R, paint
 from fdval import *
@@ -14,10 +10,8 @@ from fdevent import format_event, EVENT_COLOUR
 
 S = str
 
-# Session-only UI settings (not part of the save code).
-# show_hits: print each ordinary player/monster hit; toggled in Options.
 UI = {"show_hits": True}
-EVENT_LOG = None   # desktop tests set a list here to record event text
+EVENT_LOG = None  # desktop tests set a list here
 
 
 def pause():
@@ -36,7 +30,6 @@ def render_events(events):
 
 
 def stat_bar(player, level):
-    # Calculator-only top row: the essentials stay visible during a run.
     status("HP " + S(player.hp) + "/" + S(player.max_hp) + "  $%.2f" % player.money
            + "  A" + S(player.total_atk()) + " D" + S(player.total_df())
            + " S" + S(player.total_spd()) + "  | Next: Lv" + S(level))
@@ -130,7 +123,7 @@ def shop_menu(player, level):
         left = 1
         text = S(i) + " Chicken (heal max) - " + S(PRICE["chicken"]) + " (inf left)"
     else:
-        card = chicken_variant(player.relic)  # "plain", "bk" or "sk"
+        card = chicken_variant(player.relic)
         left = CHICKEN_LIMIT[card] - player.bought["chicken"]
         text = (S(i) + " Chicken (+" + S(CHICKEN_HEAL[card]) + " hp if missing >="
                 + S(CHICKEN_MIN_MISSING) + ") - " + S(PRICE["chicken"]) + " (" + S(left)
