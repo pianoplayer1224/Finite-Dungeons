@@ -6,22 +6,6 @@
 # To do list:
 #outro
 
-# -------------------------------------------------------------------
-# Structure (kept Godot-4.7-port friendly):
-#   0. VALUES        - every gameplay number: prices, limits, effects,
-#                      unlock levels (calc/fdval.py is an identical copy)
-#   1. CONTENT DATA  - names, descriptions and story text, built from VALUES
-#                      -> Godot: Resources / JSON data files
-#   2. MODEL         - Entity / Drone / Player / Profile state
-#                      -> Godot: GDScript classes
-#   3. SAVE          - base-61 save codes (format unchanged from original)
-#   4. ENGINE        - pure game logic: no print()/input(), functions return
-#                      message lists for the UI to show
-#                      -> Godot: GDScript logic, messages become UI signals
-#   5. TERMINAL UI   - every print()/input() in the game lives here
-#                      -> Godot: scenes / UI nodes
-# -------------------------------------------------------------------
-
 import os
 import time
 import traceback
@@ -33,101 +17,86 @@ os.system("color F0")
 # ============================================================
 
 # --- VALUES START ---
-# Every number that decides how the game plays. The engine, the shop
-# lines, the descriptions and the library all read these names, so
-# changing a value changes the rules AND the text explaining them.
-# Generated from balance.yaml by tools/balance.py, identically in
-# "FiniteDungeons.py" and calc/fdval.py: edit balance.yaml, not this
-# block (the next run overwrites it). Plain ASCII only.
+# Generated from balance.yaml by tools/balance.py: edit that, not this block. ASCII only.
 
-# --- Runs and monsters ---
-FINAL_LEVEL = 30           # beat this level to win (save codes store at most 31)
-START_HP = 10              # max HP and HP when a run starts
-START_STAT = 1             # ATK, DEF and SPD when a run starts
-START_MONEY = 0            # money when a run starts
-MONSTER_GROWTH = 1         # a level-L monster has L x this ATK, DEF and SPD,
-MONSTER_EXTRA_HP = 4       #   and that + this many HP
-WIN_MONEY = 4              # money for every monster beaten
-MIN_DAMAGE = 1             # every hit does at least this much
+FINAL_LEVEL = 30           # save codes store at most 31
+START_HP = 10
+START_STAT = 1
+START_MONEY = 0
+MONSTER_GROWTH = 1
+MONSTER_EXTRA_HP = 4
+WIN_MONEY = 4
+MIN_DAMAGE = 1
 
-# --- Shop: prices and limits ---
 PRICE = {
-    "sword": 2,            # ATK (not sold with the E-Sword or the Drone)
-    "shield": 2,           # DEF
-    "boots": 2,            # SPD (not sold with Cursed Socks)
-    "chicken": 2,          # heals, see Chickens below
-    "book": 3,             # every kind: Attack, Defence, Speed, Max HP, Healing
-    "battery": 2,          # E-Sword only: counter-attacks
-    "ink": 9,              # Forbidden Book only: kills the next monster outright
-    "elixir": 2,           # Devotion only, see Artefacts below
+    "sword": 2,
+    "shield": 2,
+    "boots": 2,
+    "chicken": 2,
+    "book": 3,
+    "battery": 2,
+    "ink": 9,
+    "elixir": 2,
 }
-LIMIT = {                  # how many you can buy in one run
+LIMIT = {
     "sword": 1,
     "shield": 1,
     "boots": 1,
-    "book": 3,             # of EACH kind of book
+    "book": 3,
     "battery": 5,
     "ink": 10,             # one FORBIDDEN_MESSAGES line per ink: add lines if raised
-    "elixir": 1,           # per shop visit, not per run
+    "elixir": 1,
 }
-FLAT_ITEM_GAIN = 1         # Sword / Shield / Boots add this to ATK / DEF / SPD
-BOOK_MULTIPLIER = 2        # Books of Attack / Defence / Speed / Max HP multiply
-                           #   that stat (the Max HP book says "double")
+FLAT_ITEM_GAIN = 1
+BOOK_MULTIPLIER = 2        # the Max HP book text says "double"
 
-# --- Chickens (the K*C membership card relics change them) ---
-CHICKEN_HEAL = {"plain": 5, "bk": 8, "sk": 10}  # gold and diamond cards heal to max
-CHICKEN_LIMIT = {"plain": 1, "bk": 2, "sk": 4}  # gold and diamond cards: no limit
-CHICKEN_MIN_MISSING = 5    # plain/bronze/silver: sold only with this much HP missing
+CHICKEN_HEAL = {"plain": 5, "bk": 8, "sk": 10}
+CHICKEN_LIMIT = {"plain": 1, "bk": 2, "sk": 4}
+CHICKEN_MIN_MISSING = 5
 
-# --- Relics ---
-REVIVE_HP = 1              # Picture of Family: revives you once, at this HP
-BLESSED_EVERY = 3          # Blessed Emblem: after every 3rd level,
-BLESSED_MAX_HP = 5         #   +5 max HP, then a full heal;
-BLESSED_START_HP_LOSS = 1  #   -1 HP when a run starts with it packed
-INK_HOLD = 1               # Forbidden Book: inks you can carry at once
-ESWORD_ATK = 1             # E-Sword: ATK it gives when equipped
-BATTERY_COUNTERS = 1       # E-Sword: counter-attacks per battery
-MEOWTON_DEF_LOSS = 1       # Meowton's 2nd lawsuit: DEF lost when equipped
+REVIVE_HP = 1
+BLESSED_EVERY = 3
+BLESSED_MAX_HP = 5
+BLESSED_START_HP_LOSS = 1
+INK_HOLD = 1
+ESWORD_ATK = 1
+BATTERY_COUNTERS = 1
+MEOWTON_DEF_LOSS = 1
 
-# --- RAY-24 Drone: 4 upgrade tracks, 4 stages each ---
-DRONE_SLOTS = 6            # paid upgrades per run, all tracks together
-DRONE_STAGES = 4           # stages per track (the lists below have one per stage)
-DRONE_STAGE_COSTS = [      # price of each stage
-    [1, 2, 3, 4],          # track 1 Hardpoint munition upgrade: drone ATK
-    [2, 2, 2, 4],          # track 2 Alpha strike: missiles at the start of fights
-    [2, 2, 2, 3],          # track 3 FARP Protocol: healing after each win
-    [2, 2, 2, 3],          # track 4 Materiel Recovery: money after each win
+DRONE_SLOTS = 6
+DRONE_STAGES = 4
+DRONE_STAGE_COSTS = [
+    [1, 2, 3, 4],
+    [2, 2, 2, 4],
+    [2, 2, 2, 3],
+    [2, 2, 2, 3],
 ]
-DRONE_T1_ATK_GAIN = [1, 2, 2, 8]  # track 1: drone ATK each stage adds
-DRONE_MISSILE_MULTIPLIER = 2      # track 2 from stage 2: a missile hits for drone
-                                  #   ATK x this (the text says "double")
-DRONE_STAGE4_MISSILES = 3         # track 2 stage 4: missiles per fight, each
-DRONE_SHRED_MULTIPLIER = 2        #   cutting monster DEF by its damage x this
-DRONE_HEALS = [10, 20, 50]        # track 3 stages 1-3: HP healed after a win
-                                  #   (they add up: 10, then 30, then 80)
-DRONE_HEAL_MULTIPLIER = 2         # track 3 stage 4: all healing x this ("doubles")
-DRONE_T4_MONEY = [10, 16]         # track 4 stages 2-3: money after a win
-                                  #   (stage 1 gives money = drone ATK)
-DRONE_INCOME_MULTIPLIER = 2       # track 4 stage 4: all income x this ("double")
+DRONE_T1_ATK_GAIN = [1, 2, 2, 8]
+DRONE_MISSILE_MULTIPLIER = 2      # the text says "double"
+DRONE_STAGE4_MISSILES = 3
+DRONE_SHRED_MULTIPLIER = 2
+DRONE_HEALS = [10, 20, 50]
+DRONE_HEAL_MULTIPLIER = 2         # the text says "doubles"
+DRONE_T4_MONEY = [10, 16]
+DRONE_INCOME_MULTIPLIER = 2       # the text says "double"
 
-# --- Artefacts ---
-ELIXIR_SPD_LOSS = 1        # Devotion's Elixir: -1 SPD and -[Elixirs bought] max HP,
-ELIXIR_EXTRA_SPD = 9       #   +9 extra SPD,
-ELIXIR_FIGHTS = 3          #   wearing off over the next 3 fights:
-ELIXIR_SPD_DECAY = 3       #   -3 extra SPD after each of them
-SOCKS_MAX_HP = 5           # Cursed Socks: activate at this HP or less
-AR_MAX_HP_LOSS = 5         # Abyssal Rad-Blood Oath: the water sample (once per run)
-AR_LEVEL_STEP = 5          #   costs 5 max HP and pays
-AR_POWER = 4               #   (levels beaten // 5) ** this money
-COINPOT_STEP = 3           # Alchemist's Coinpot: every 3 money left when you leave
-COINPOT_PAY = 2            #   the shop pays 2 money before the fight
-VITALITY_HP = 50           # Heart of Excessive Vitality: start with 50 max HP and HP,
-VITALITY_MONEY_LOSS = 0.10 #   lose this share of your money before each fight,
-VITALITY_DRAIN_DIVISOR = 1 #   then lose HP = money / this
-CARRIER_RELICS = 3         # Carrier of Legend: relics packed (switches = this - 1);
-CARRIER_RESET = 1          #   HP, ATK, DEF and SPD drop to this at a switch
+ELIXIR_SPD_LOSS = 1
+ELIXIR_EXTRA_SPD = 9
+ELIXIR_FIGHTS = 3
+ELIXIR_SPD_DECAY = 3
+SOCKS_MAX_HP = 5
+AR_MAX_HP_LOSS = 5
+AR_LEVEL_STEP = 5
+AR_POWER = 4
+COINPOT_STEP = 3
+COINPOT_PAY = 2
+VITALITY_HP = 50
+VITALITY_MONEY_LOSS = 0.10
+VITALITY_DRAIN_DIVISOR = 1
+CARRIER_RELICS = 3
+CARRIER_RESET = 1
 
-# --- Unlocks: (key, highest level beaten needed). List order = menu order. ---
+# List order = menu order: add new unlocks at the end.
 RELIC_UNLOCKS = [
     ("family", 0),
     ("blessed", 0),
@@ -149,23 +118,20 @@ ARTEFACT_UNLOCKS = [
     ("vitality", 20),
 ]
 
-# --- Achievements ---
-RICH_MONEY = 32000000      # "you can't take it with you": die holding this much
-FEW_RUNS = 3               # "The real game": beat FINAL_LEVEL within this many runs
-HARD_MODE_LEVEL = 2        # "hard mode": die on this level with Meowton + Cursed Socks
+RICH_MONEY = 32000000
+FEW_RUNS = 3
+HARD_MODE_LEVEL = 2
 
-# --- Interface ---
-MENU_PAUSE = 0.3           # seconds of pause before the shop and main menu redraw
-TEXT_COLOURS = {           # RGB colour of each kind of text (both screens are white)
-    "muted": (160, 160, 160),    # greyed-out items, flavour lines, the fight forecast
-    "story": (100, 100, 100),    # story scenes
-    "good": (0, 128, 0),         # your hits, heals, purchases, wins
-    "bad": (190, 0, 0),          # monster hits, drains, deaths
-    "warning": (190, 0, 0),      # blocked purchases, invalid input
-}                          # anything else (menus, stats, headings, money) is
-                           # the normal text colour. Money lines are marked
-                           # "money": add a "money" entry here to colour them.
-COLOURS_ON = True          # colours at start; players can switch them off in-game
+MENU_PAUSE = 0.3
+# "money" has no entry on purpose: add one to colour money lines.
+TEXT_COLOURS = {
+    "muted": (160, 160, 160),
+    "story": (100, 100, 100),
+    "good": (0, 128, 0),
+    "bad": (190, 0, 0),
+    "warning": (190, 0, 0),
+}
+COLOURS_ON = True
 # --- VALUES END ---
 
 
@@ -178,10 +144,9 @@ def ansi(rgb):
     return "\033[38;2;%d;%d;%dm" % rgb
 
 
-GREY = ansi(TEXT_COLOURS["muted"])  # greyed-out shop items and flavour lines
-RESET = '\033[39m'  # back to the terminal's own text colour (black on the color F0 console)
+GREY = ansi(TEXT_COLOURS["muted"])
+RESET = '\033[39m'
 
-# Derived from VALUES for the texts below (not values of their own).
 UNLOCK_LEVEL = dict(RELIC_UNLOCKS + ARTEFACT_UNLOCKS)
 VITALITY_PERCENT = int(round(VITALITY_MONEY_LOSS * 100))
 AR_POWER_SIGN = {2: "²", 3: "³", 4: "⁴"}.get(AR_POWER, f"^{AR_POWER}")
@@ -244,15 +209,12 @@ ARTEFACT_DESCRIPTIONS = {
     "vitality": f"Heart of Excessive Vitality — Start with {VITALITY_HP} HP but lose {VITALITY_PERCENT}% money before fights, at the start of fights, lose HP equal to {VITALITY_DRAIN_TEXT}."
 }
 
-# Achievement save-code bit order, most significant bit first. Do NOT reorder:
-# save codes pack these 8 flags into one byte in exactly this order.
+# Do NOT reorder: save codes pack these flags into one byte in this order.
 ACH_BIT_ORDER = (
     "pic_kill", "negative_money", "shop_death", "one_shot",
     "trun", "okill", "drich", "hmode",
 )
 
-# Display order + text for the achievements screen.
-# Hints listed here are hidden while the achievement is still locked.
 ACHIEVEMENT_SECRET_HINTS = {"negative_money"}
 ACHIEVEMENT_DISPLAY = [
     ("trun", "The real game", f"beat level {FINAL_LEVEL} in {FEW_RUNS} runs"),
@@ -265,16 +227,12 @@ ACHIEVEMENT_DISPLAY = [
     ("pic_kill", "one hp actually helps?!", "kill a monster after reviving"),
 ]
 
-# --- RAY-24 drone upgrade texts ---
-# Costs and effects are in VALUES and applied by apply_drone_stage(). The
-# descriptions keep {atk} / {atk2} (the drone's current atk) for drone_menu()
-# to fill in, which is why those braces are doubled in the f-strings.
+# {atk}/{atk2} are filled in by drone_menu(), hence the doubled braces.
 DRONE_TRACK_NAMES = [
-    "Hardpoint munition upgrade",  # the drone's regular attack - its ATK rides with yours
-    "Alpha strike",                # the start-of-fight Tomahawk volley
-    "FARP Protocol",               # post-fight healing (Forward Arming and Refueling Point)
-    "Materiel Recovery",           # post-fight income. "Materiel" is the correct military
-                                   # spelling and is deliberate - do not "fix" it to "Material".
+    "Hardpoint munition upgrade",
+    "Alpha strike",
+    "FARP Protocol",
+    "Materiel Recovery",  # "Materiel" is deliberate: do not "fix" it to "Material".
 ]
 
 DRONE_STAGE_DESCS = [
@@ -331,12 +289,10 @@ DRONE_BUY_MSGS = [
     ],
 ]
 
-# --- Long story texts ---
 TRAMPLE_TEXT = "Harshly, you are shuffled to the ground. Out of your pocket a picture flew out, the picture that stands as your fuel, the picture that supported you up to here, the picture that captures the moment you can never return to...\nthen TRASH\nnot dramatically, not emotionally, the monster trampled on it.\nYou feel a string snapped inside you as the picture shattered into pieces.\nBefore you knew it, you were charging towards the monster with all your might..."
 
 PIC_KILL_TEXT = "From that burst of energy not explainable by science, you regained just enough power to put the down the monster before dropping to the ground\nAfter what felt like eternities later, you dragged yourself up, and moved on, just like what they would have wanted to see..."
 
-# Used when the revive happens with no monster around (shop deaths).
 SHOP_REVIVE_TEXT = "Your knees buckle, and the picture slips out of your pocket, landing face-down in the dirt.\nNo monster, no dramatic music, no one to blame — just you, a shop, and a photograph you will never be able to look at the same way again.\nYou pick yourself up anyway. They would have wanted you to."
 
 BLESSED_FUMBLE_TEXT = f"You fumble with the Blessed Emblem while getting ready and pinched yourself, losing {BLESSED_START_HP_LOSS} HP.....\nI am not laughing at you, I promise."
@@ -393,7 +349,6 @@ class Player(Entity):
         super().__init__(START_HP, START_STAT, START_STAT, START_STAT)
         self.money = START_MONEY
         self.artefact = artefact
-        # Carrier of Legend holds 3 relics; only one is active at a time.
         if artefact == "carrier":
             self.relics = list(relic)
             self.active_relic_index = 0
@@ -401,29 +356,26 @@ class Player(Entity):
         else:
             self.relics = None
             self.relic = relic
-        self.switches = 0            # Carrier: relic switches performed (max CARRIER_RELICS - 1)
+        self.switches = 0
 
-        self.revive_used = False     # Picture of Family
+        self.revive_used = False
         self.revived_this_fight = False
-        self.forbidden_ink = 0       # Forbidden Book: ink currently held (max INK_HOLD)
-        self.forbidden_ink_total = 0  # Forbidden Book: total inks ever bought (max LIMIT["ink"])
-        self.counters = 0            # E-Sword battery counters
+        self.forbidden_ink = 0
+        self.forbidden_ink_total = 0
+        self.counters = 0
         self.used_e_sword_before = False
-        self.coinpot_bonus = 0       # Alchemist's Coinpot pending payout
-        self.elixir_timers = []      # one ELIXIR_FIGHTS-fight countdown per elixir drunk
+        self.coinpot_bonus = 0
+        self.elixir_timers = []
         self.bought_elixir_this_visit = 0
         self.books = {"atk": 0, "def": 0, "hp": 0, "spd": 0, "heal": 0}
         self.bought = {"sword": 0, "shield": 0, "boots": 0, "chicken": 0,
                        "battery": 0, "elixir": 0}
-        self.socks_sealed = False    # Cursed Socks activated
-        self.pending_hp_multiplier = 1  # Book of Max HP applies after next fight
-        self.ar_used = False         # Abyssal Rad-Blood Oath: once per run
+        self.socks_sealed = False
+        self.pending_hp_multiplier = 1
+        self.ar_used = False
         self.vitality_drain_pending = False
         self.drone = Drone()
 
-    # Totals are COMPUTED, never hand-maintained: Meowton's "extra ATK = total SPD"
-    # and the drone's ATK can no longer drift out of sync with the stats they
-    # derive from, no matter what the shop does to SPD.
     @property
     def total_atk(self):
         total = self.atk + self.extra_atk
@@ -452,8 +404,7 @@ def create_monster(level):
 # ============================================================
 # 3. SAVE
 # ============================================================
-# Format (unchanged from the original): value = runs<<13 | highest<<8 | ach_bits,
-# base-61 encoded (alphabet has no capital I), always exactly 5 characters.
+# value = runs<<13 | highest<<8 | ach_bits, base-61 (no capital I), 5 characters.
 
 SAVE_ALPHABET = "0123456789ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
@@ -463,7 +414,7 @@ def save_code(profile):
     for key in ACH_BIT_ORDER:
         bits = (bits << 1) | (1 if profile.ac[key] else 0)
 
-    # load() rejects runs > 1024; cap here so a long-lived save can't self-corrupt.
+    # load() rejects runs > 1024.
     runs = min(profile.runs, 1024)
     value = (((runs << 5) | profile.highest) << 8) | bits
 
@@ -507,8 +458,6 @@ def load_code(profile, code):
 # ============================================================
 # 4. ENGINE
 # ============================================================
-# Every function here mutates game state and returns a list of message strings
-# for the UI to display. No print()/input() in this section.
 
 def unlocked_relics(highest):
     return [r for r, lvl in RELIC_UNLOCKS if highest >= lvl]
@@ -548,10 +497,7 @@ def try_revive(player, out, in_combat):
     otherwise the relic silently fails to pay out on that death.
     """
     if player.hp <= 0 and player.relic == "family" and not player.revive_used:
-        # The shop deaths clamp hp to max_hp, so they always arrive here with
-        # max HP at 0 or below. You cannot hold 1 HP in a 0-capacity body, so
-        # the picture drags that back to 1 as well - a revive into an instant
-        # second death would not be a revive.
+        # Shop deaths arrive with max HP <= 0, so lift it too or the revive kills again.
         player.max_hp = max(player.max_hp, REVIVE_HP)
         player.hp = REVIVE_HP
         player.revive_used = True
@@ -560,8 +506,6 @@ def try_revive(player, out, in_combat):
         return True
     return False
 
-
-# ---------- shop purchases ----------
 
 def blocked(item, reason, **extra):
     return {"type": "buy_blocked", "item": item, "reason": reason, **extra}
@@ -599,7 +543,6 @@ def try_buy(player, item, ac):
         elif player.money < PRICE["book"]:
             out.append(blocked("book", "money", key=key))
         elif key == "hp" and player.socks_sealed:
-            # Refused before charging (originally this still cost 3 money and a purchase)
             out.append(blocked("book", "sealed", key=key))
         else:
             if key == "heal":
@@ -686,7 +629,6 @@ def buy_chicken(player, ac):
                         "cost": PRICE["chicken"], "healed": healed})
 
     elif variant == "dk":
-        # Diamond card removes ALL purchase conditions - including having the money.
         healed = player.max_hp - player.hp
         player.hp = player.max_hp
         player.money -= PRICE["chicken"]
@@ -705,7 +647,7 @@ def buy_chicken(player, ac):
             out.append(blocked("chicken", "hp_full", variant=variant))
         else:
             heal = CHICKEN_HEAL["plain"]
-            if player.drone.stages[2] == 4:  # FARP stage 4 multiplies all healing
+            if player.drone.stages[2] == 4:
                 heal *= DRONE_HEAL_MULTIPLIER
             healed = min(player.hp + heal, player.max_hp) - player.hp
             player.hp += healed
@@ -776,7 +718,7 @@ def take_water_sample(player, level, ac):
     player.max_hp -= AR_MAX_HP_LOSS
     player.hp = min(player.hp, player.max_hp)
     arb = water_sample_reward(player, level)
-    player.money += arb  # the reward used to be printed but never actually granted
+    player.money += arb
     out.append({"type": "water_sample", "money": arb, "max_hp_lost": AR_MAX_HP_LOSS})
 
     if player.hp <= 0 and not try_revive(player, out, False):
@@ -817,8 +759,6 @@ def switch_relic(player):
         out.append({"type": "esword_equipped", "had_sword": had_sword})
     return out
 
-
-# ---------- drone upgrades ----------
 
 def apply_drone_stage(player, track):
     """Advance one drone track a single stage and apply its effect.
@@ -870,8 +810,6 @@ def buy_drone_upgrade(player, track):
     return out
 
 
-# ---------- fight ----------
-
 def player_strike(player, monster, out, ac):
     atk = player.total_atk
     df = monster.total_df
@@ -881,8 +819,6 @@ def player_strike(player, monster, out, ac):
     monster.hp -= dmg
     out.append({"type": "player_hit", "dmg": dmg, "player_hp": player.hp,
                 "monster_hp_before": hp_before, "monster_hp": monster.hp})
-    # 雑魚: a true one-hit kill by YOUR attack (works on level 30 too;
-    # ink and drone kills don't count).
     if monster_was_full and monster.hp <= 0:
         ac["one_shot"] = True
 
@@ -917,7 +853,6 @@ def drone_volley(player, monster, out, ac):
                     "monster_hp_before": monster.hp, "monster_hp": monster.hp - dmg})
         monster.hp -= dmg
     else:
-        # Stage 4: DRONE_STAGE4_MISSILES shots, each also shreds DEF by its damage x DRONE_SHRED_MULTIPLIER.
         for shot in range(DRONE_STAGE4_MISSILES):
             dmg = max(datk * DRONE_MISSILE_MULTIPLIER - max(0, monster.df - datk * DRONE_MISSILE_MULTIPLIER), MIN_DAMAGE)
             new_df = max(monster.df - dmg * DRONE_SHRED_MULTIPLIER, 0)
@@ -936,15 +871,13 @@ def fight(player, monster, level, ac):
     """Simulate the whole fight. Returns (player_won, events)."""
     out = []
 
-    # Guaranteed one-shot? Smirk before the fight even starts.
     if player.total_atk >= monster.hp + monster.df:
         out.append({"type": "smirk"})
 
     if player.relic == "yd":
         drone_volley(player, monster, out, ac)
 
-    # Heart of Excessive Vitality wallet drain. Clamped at 0 so negative money
-    # can't heal you, and dying here is a real death - even with ink in your pocket.
+    # Negative money must not heal; dying here is a real death, even with ink held.
     if player.vitality_drain_pending:
         player.vitality_drain_pending = False
         drain = max(0, int(player.money // VITALITY_DRAIN_DIVISOR))
@@ -954,10 +887,8 @@ def fight(player, monster, level, ac):
         if not player.is_alive():
             return False, out
 
-    # Forbidden Ink: instant kill.
     if player.forbidden_ink > 0:
-        # Plays the list bottom-up: simplest formula first, the "formula to
-        # beat this game" saved for the last ink.
+        # The last ink plays the first message.
         msg_index = min(LIMIT["ink"] - player.forbidden_ink_total, len(FORBIDDEN_MESSAGES) - 1)
         out.append({"type": "ink_kill", "message_index": msg_index,
                     "final_boss": level == FINAL_LEVEL})
@@ -987,8 +918,7 @@ def fight(player, monster, level, ac):
                 player_strike(player, monster, out, ac)
 
     won = player.is_alive()
-    # The flag survives across the shop, so a revive bought at the elixir counter
-    # still pays out on the next monster you put down.
+    # Survives the shop, so a revive there pays out on the next kill.
     if won and player.revived_this_fight:
         out.append({"type": "pic_kill"})
         ac["pic_kill"] = True
@@ -1001,9 +931,7 @@ def post_fight(player, level):
     out = []
 
     if player.pending_hp_multiplier > 1:
-        # A book bought BEFORE the socks sealed you still tries to fire here.
-        # The seal wins - otherwise you keep the sealed ATK payout and get your
-        # max HP back, which is the whole thing the seal is meant to cost you.
+        # The socks seal beats a Max HP book bought before it.
         if player.socks_sealed:
             out.append({"type": "book_hp_fizzled"})
         else:
@@ -1011,8 +939,7 @@ def post_fight(player, level):
             out.append({"type": "book_hp_applied", "max_hp": player.max_hp})
         player.pending_hp_multiplier = 1
 
-    # Money. Track 4 stage 4 "doubles income": it pays everything above
-    # again, (DRONE_INCOME_MULTIPLIER - 1) more times.
+    # Track 4 stage 4 "doubles income": pays the income below again, DRONE_INCOME_MULTIPLIER - 1 times.
     player.money += WIN_MONEY
     stages = player.drone.stages
     if stages[3] >= 1:
@@ -1025,8 +952,7 @@ def post_fight(player, level):
         player.money += (DRONE_INCOME_MULTIPLIER - 1) * (
             WIN_MONEY + player.drone.atk + DRONE_T4_MONEY[0] + DRONE_T4_MONEY[1])
 
-    # Drone healing (track 3): the stages add up, and stage 4 "doubles" the
-    # total by healing it again, (DRONE_HEAL_MULTIPLIER - 1) more times.
+    # Track 3 stages add up; stage 4 "doubles" them by healing the total again.
     heals = DRONE_HEALS + [(DRONE_HEAL_MULTIPLIER - 1) * sum(DRONE_HEALS)]
     for threshold, heal in enumerate(heals, 1):
         if stages[2] >= threshold:
@@ -1037,7 +963,6 @@ def post_fight(player, level):
             player.max_hp += BLESSED_MAX_HP
         player.hp = player.max_hp
 
-    # Elixir hangover: extra SPD wears off after each fight following a drink.
     remaining = []
     for timer in player.elixir_timers:
         timer -= 1
@@ -1060,14 +985,6 @@ def print_intro():
     print(f"This is an auto-combat game where life choices and shopping collide, and your aim is to defeat me, the level {FINAL_LEVEL} boss. Why me? Shouldn't have skipped the intro if you want to know😈\nCharacters have 4 stats: HP, ATK DEF and SPD.\nHP is shown in the form hp/max hp, others are shown in the form 'base+extra(total)'\nMonsters gain +{MONSTER_GROWTH} to every stat each level, while you mainly increase stats by purchasing stuff in the shop before each fight, using a (creative) currency called 'money'.\nThe effect of each item is shown to the right of its name, followed by its price and purchase limit.\nTo purchase an item, simply input its number (found at its left) and enter, repeat if you want multiple purchases.\nAll stat increases refer to base stats unless 'extra' is specified.\nAt the start of runs you can pick (usually) 1 'relics' and 'artefacts', which you will unlock more as your highest level reached increases.\nWhen you get defeated you go back to level 1 and can start a new run, probably with new relics and artefacts you unlocked on the previous run.\n\n\n\n-------combat system------\nFighting in each level consists of 2 main phases: hitting the monster and getting hit by the monster, these two phases loop until the HP of you or the monster reaches 0.\nThe character with higher SPD hits first, if SPD ties, I'll let you hit first, cause I'm genuinely nice.\nWhen getting hit, HP decreases by:\nAttacker total ATK-Defender total DEF (HP lost is at least one if this gives <1)\nThis whole fight is automatic.\nThis is a pretty short game and any% should be easily under 2 mins, with 100% nowhere over 5 mins.\nGood luck, and I shall see you at level {FINAL_LEVEL}.\n\n")
 
 
-# ---------- event rendering ----------
-# The engine emits data-only events; ALL wording lives here. A Godot port
-# replaces this section with animations/labels and never has to parse prose.
-# format_event returns 0+ lines, so events that are silent in the terminal
-# (an ordinary Sword purchase) can still drive a sound or a tween elsewhere.
-
-# Blocked-purchase wording, keyed (item, reason). sword/shield/boots fall
-# through to the templated version below instead.
 BUY_BLOCKED_TEXT = {
     ("chicken", "limit"): "Cannot buy Chicken — purchase limit reached.",
     ("chicken", "money"): "not enough money",
@@ -1107,10 +1024,8 @@ def format_event(ev):
     """Render one engine event into 0+ terminal lines."""
     t = ev["type"]
 
-    # --- shop ---
     if t == "buy_blocked":
         item, reason = ev["item"], ev["reason"]
-        # The gold card is the one variant with its own phrasing.
         if item == "chicken" and ev.get("variant") == "gk" and reason == "money":
             return ["Cannot buy Chicken — not enough money"]
         if (item, reason) in BUY_BLOCKED_TEXT:
@@ -1131,7 +1046,7 @@ def format_event(ev):
             return [f"Forbidden Ink purchased! ({ev['total']}/{LIMIT['ink']}). Enter the Battle and instant kill the monster!"]
         if item == "elixir":
             return [f"You feel energised, your future self doesn't. SPD-{ELIXIR_SPD_LOSS}, extra spd +{ELIXIR_EXTRA_SPD}"]
-        return []  # sword/shield/boots/other books/battery/card chickens are silent
+        return []
 
     if t == "shop_death":
         return [SHOP_DEATH_TEXT[ev["cause"]]]
@@ -1165,14 +1080,12 @@ def format_event(ev):
             return ["You swapped your wooden sword from shop into the Automatic Counter E-Sword!"]
         return [f"You equipped the Automatic Counter E-Sword! +{ESWORD_ATK} ATK!"]
 
-    # --- drone ---
     if t == "drone_blocked":
         return [DRONE_BLOCKED_TEXT[ev["reason"]]]
 
     if t == "drone_upgraded":
         return [DRONE_BUY_MSGS[ev["track"]][ev["stage"] - 1]]
 
-    # --- pre-fight ---
     if t == "vitality_penalty":
         return [f"Heart of Excessive Vitality drains {VITALITY_PERCENT}% of your money: -{ev['amount']:.2f} Money",
                 "Apparently, being super healthy is expensive — your wallet got a protein shake tax!"]
@@ -1180,7 +1093,6 @@ def format_event(ev):
     if t == "coinpot_payout":
         return [f"Coinpot bonus: +{ev['amount']:.2f} money before fight!"]
 
-    # --- combat ---
     if t == "smirk":
         return ["'雑魚', you smirked"]
 
@@ -1220,7 +1132,6 @@ def format_event(ev):
     if t == "pic_kill":
         return [PIC_KILL_TEXT]
 
-    # --- post-fight ---
     if t == "book_hp_applied":
         return [f"Book of Max HP activates! Your max HP is now {ev['max_hp']}."]
 
@@ -1230,13 +1141,8 @@ def format_event(ev):
     raise ValueError(f"unknown event type: {t}")
 
 
-# Session-only UI settings (not part of the save code).
-# show_hits: print each ordinary player/monster hit; toggled in Options.
-# colours: colour text by kind (TEXT_COLOURS); toggled in Options or main menu 7.
-# Off leaves only the grey of greyed-out items and flavour lines.
 UI = {"show_hits": True, "colours": COLOURS_ON}
 
-# Colour of each event's lines (kinds are the keys of TEXT_COLOURS; missing = normal).
 EVENT_COLOUR = {
     "buy_blocked": "warning", "purchased": "good", "shop_death": "bad",
     "socks_blocked": "warning", "socks_activated": "good", "water_sample": "story",
@@ -1326,7 +1232,6 @@ def drone_menu(player, level):
             print(f"\n{track + 1} {DRONE_TRACK_NAMES[track]}-stage {d.stages[track]}/{DRONE_STAGES}")
             for stage in range(1, DRONE_STAGES + 1):
                 desc = DRONE_STAGE_DESCS[track][stage - 1].format(atk=d.atk, atk2=d.atk * DRONE_MISSILE_MULTIPLIER)
-                # Readable: stages you own plus the next one you can buy.
                 shop_line(desc, greyed=stage > d.stages[track] + 1)
         print("\n0 return to shop")
         print(stat_bar(player, level))
@@ -1393,7 +1298,6 @@ def shop_menu(player, level):
     options = {}
     i = 1
 
-    # Slot 1: drone upgrade menu / Sword / Battery
     if player.relic == "yd":
         print(f"{i} Ray-24 upgrade menu")
         options[str(i)] = "yds"
@@ -1409,13 +1313,11 @@ def shop_menu(player, level):
         options[str(i)] = "battery"
         i += 1
 
-    # Shield
     left = LIMIT["shield"] - player.bought["shield"]
     shop_line(f"{i} Shield (+{FLAT_ITEM_GAIN} def) - {PRICE['shield']} ({left} left)", left == 0)
     options[str(i)] = "shield"
     i += 1
 
-    # Boots (blocked by Cursed Socks)
     if player.artefact == "socks":
         shop_line(f"{i} Boots (+{FLAT_ITEM_GAIN} spd) - cannot buy due to Cursed Socks-some bad curse will occur if you try putting that sock into a sealed space, so this game might crash", True)
     else:
@@ -1424,12 +1326,11 @@ def shop_menu(player, level):
         options[str(i)] = "boots"
     i += 1
 
-    # Chicken
     if player.relic in ("gk", "dk"):
         left = 1
         text = f"{i} Chicken (heal max) - {PRICE['chicken']} (∞ left)"
     else:
-        card = chicken_variant(player.relic)  # "plain", "bk" or "sk"
+        card = chicken_variant(player.relic)
         left = CHICKEN_LIMIT[card] - player.bought["chicken"]
         text = (f"{i} Chicken (+{CHICKEN_HEAL[card]} hp if missing >={CHICKEN_MIN_MISSING})"
                 f" - {PRICE['chicken']} ({left} left)")
@@ -1437,7 +1338,6 @@ def shop_menu(player, level):
     options[str(i)] = "chicken"
     i += 1
 
-    # Books
     for key, name in (("atk", f"Book of Attack (x{BOOK_MULTIPLIER} atk)"),
                       ("def", f"Book of Defence (x{BOOK_MULTIPLIER} def)"),
                       ("spd", f"Book of Speed (x{BOOK_MULTIPLIER} spd)"),
@@ -1448,14 +1348,12 @@ def shop_menu(player, level):
         options[str(i)] = f"book_{key}"
         i += 1
 
-    # Elixir (The Damned Proof of Devotion)
     if player.artefact == "devotion":
         left = LIMIT["elixir"] - player.bought_elixir_this_visit
         shop_line(f"{i} Elixir (*onster) - max hp-{player.bought['elixir'] + 1}, spd-{ELIXIR_SPD_LOSS}, extra spd+{ELIXIR_EXTRA_SPD}, extra spd -{ELIXIR_SPD_DECAY} after fight for {ELIXIR_FIGHTS} turns - {PRICE['elixir']} ({left} left)", left == 0)
         options[str(i)] = "elixir"
         i += 1
 
-    # Forbidden Ink (Forbidden Book)
     if player.relic == "forbidden":
         left = LIMIT["ink"] - player.forbidden_ink_total
         shop_line(f"{i} Forbidden Ink (insta-kill next monster when entering next fight) - {PRICE['ink']} ({left} left)", left == 0)
@@ -1464,8 +1362,7 @@ def shop_menu(player, level):
 
     print("0 Back")
     if player.artefact == "ar":
-        # Same helper the payout uses, so the advertised figure includes the
-        # drone track-4 stage-4 doubling instead of understating it.
+        # Same helper as the payout, so the figure includes the drone income doubling.
         print(f"235 Test water sample (max hp-{AR_MAX_HP_LOSS}, money+{water_sample_reward(player, level)})")
     if player.artefact == "socks":
         print("777 Activate cursed socks")
@@ -1553,7 +1450,6 @@ def pre_fight(player, level, profile):
             if confirm_quit(player, level):
                 return "quit"
         elif choice == "0":
-            # Coinpot charges up the moment you leave for the fight.
             if player.artefact == "coinpot" and player.money >= COINPOT_STEP:
                 player.coinpot_bonus += (player.money // COINPOT_STEP) * COINPOT_PAY
             if player.artefact == "vitality":
@@ -1574,8 +1470,6 @@ def pre_fight(player, level, profile):
         else:
             print(paint("warning", "Invalid input, please try again"))
 
-
-# ---------- run setup and main loop ----------
 
 def choose_artefact(artefacts):
     if not artefacts:
@@ -1670,7 +1564,6 @@ def run(profile):
     else:
         player = Player(choose_relic(relics), artefact)
 
-    # Start-of-run effects
     if player.relic == "e-sword":
         player.atk += ESWORD_ATK
         print(f"You have your own sword, not needing the shop one! +{ESWORD_ATK} ATK!")
@@ -1680,7 +1573,6 @@ def run(profile):
     if player.relic == "meowton":
         player.df -= MEOWTON_DEF_LOSS
         print(f"A law suit is not one that provides defence ability, DEF-{MEOWTON_DEF_LOSS}")
-    # Blessed Emblem pinches you if it's anywhere in your luggage.
     blessed_packed = ("blessed" in player.relics) if player.relics else (player.relic == "blessed")
     if blessed_packed:
         player.hp -= BLESSED_START_HP_LOSS
@@ -1689,7 +1581,6 @@ def run(profile):
     for level in range(1, FINAL_LEVEL + 1):
         result = pre_fight(player, level, profile)
         if result == "quit":
-            # Quitting ends the run like a death would: levels beaten count.
             profile.highest = max(profile.highest, level - 1)
             print(f"\nYou left the dungeon. Highest: {profile.highest}")
             print("Save code:", save_code(profile))
@@ -1719,7 +1610,6 @@ def run(profile):
 
         render_events(post_fight(player, level))
 
-    # Loop completed: level 30 beaten.
     print(paint("good", f"\nYou beat level {FINAL_LEVEL}. You win!"))
     profile.highest = FINAL_LEVEL
     if profile.runs <= FEW_RUNS:
@@ -1727,8 +1617,6 @@ def run(profile):
         print(paint("good", "You beat the game with the fewest runs possible!"))
     print("Save code:", save_code(profile))
 
-
-# ---------- menu screens ----------
 
 def print_achievements(profile):
     print("---unlocked achievements---")
@@ -1879,7 +1767,7 @@ if __name__ == "__main__":
     except (KeyboardInterrupt, EOFError):
         raise
     except QuitGame:
-        pass   # the save code is already printed
+        pass
     except Exception:
         traceback.print_exc()
         print("sorry,an unknown error occurred...\nDo you mind telling me what happened?")

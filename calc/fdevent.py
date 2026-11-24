@@ -1,6 +1,4 @@
-# fdevent.py - turns engine events into text lines (fx-CG100).
-# Hand-ported from format_event() in "FiniteDungeons.py" (no f-strings:
-# MicroPython 1.9.4). All wording lives in fdtxt1/fddata.
+# Port of format_event() in section 5 (TERMINAL UI) of FiniteDungeons.py.
 
 from fdval import *
 from fddata import RELIC_NAMES, DRONE_BUY_MSGS, VITALITY_PERCENT
@@ -10,7 +8,6 @@ from fdtxt1 import (BUY_BLOCKED_TEXT, SHOP_DEATH_TEXT, DRONE_BLOCKED_TEXT,
 
 S = str
 
-# Colour of each event's lines (kinds are the keys of TEXT_COLOURS; missing = normal).
 EVENT_COLOUR = {
     "buy_blocked": "warning", "purchased": "good", "shop_death": "bad",
     "socks_blocked": "warning", "socks_activated": "good", "water_sample": "story",
@@ -33,7 +30,6 @@ def format_event(ev):
     """Render one engine event into 0+ lines."""
     t = ev["type"]
 
-    # --- shop ---
     if t == "buy_blocked":
         item, reason = ev["item"], ev["reason"]
         if item == "chicken" and ev.get("variant") == "gk" and reason == "money":
@@ -92,14 +88,12 @@ def format_event(ev):
             return ["You swapped your wooden sword from shop into the Automatic Counter E-Sword!"]
         return ["You equipped the Automatic Counter E-Sword! +" + S(ESWORD_ATK) + " ATK!"]
 
-    # --- drone ---
     if t == "drone_blocked":
         return [DRONE_BLOCKED_TEXT[ev["reason"]]]
 
     if t == "drone_upgraded":
         return [DRONE_BUY_MSGS[ev["track"]][ev["stage"] - 1]]
 
-    # --- pre-fight ---
     if t == "vitality_penalty":
         return ["Heart of Excessive Vitality drains %d%% of your money: -%.2f Money"
                 % (VITALITY_PERCENT, ev["amount"]),
@@ -108,7 +102,6 @@ def format_event(ev):
     if t == "coinpot_payout":
         return ["Coinpot bonus: +%.2f money before fight!" % ev["amount"]]
 
-    # --- combat ---
     if t == "smirk":
         return ["'Zako', you smirked"]
 
@@ -149,7 +142,6 @@ def format_event(ev):
     if t == "pic_kill":
         return [PIC_KILL_TEXT]
 
-    # --- post-fight ---
     if t == "book_hp_applied":
         return ["Book of Max HP activates! Your max HP is now " + S(ev["max_hp"]) + "."]
 

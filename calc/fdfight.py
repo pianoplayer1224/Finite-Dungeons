@@ -1,6 +1,4 @@
-# fdfight.py - drone, relic switch, fight and post-fight engine (fx-CG100).
-# Hand-ported from section 4 (ENGINE) of "FiniteDungeons.py": pure logic,
-# no I/O. Each function mutates state and returns event dicts for fdevent.
+# Port of section 4 (ENGINE) of FiniteDungeons.py: drone, fight, post-fight.
 
 from fdval import *
 from fdtxt1 import FORBIDDEN_MESSAGES
@@ -62,8 +60,6 @@ def switch_relic(player):
     return out
 
 
-# ---------- drone upgrades ----------
-
 def apply_drone_stage(player, track):
     """Advance one drone track a single stage and apply its effect.
 
@@ -113,8 +109,6 @@ def buy_drone_upgrade(player, track):
     return out
 
 
-# ---------- fight ----------
-
 def player_strike(player, monster, out, ac):
     atk = player.total_atk()
     df = monster.total_df()
@@ -124,7 +118,6 @@ def player_strike(player, monster, out, ac):
     monster.hp -= dmg
     out.append({"type": "player_hit", "dmg": dmg, "player_hp": player.hp,
                 "monster_hp_before": hp_before, "monster_hp": monster.hp})
-    # Zako: a true one-hit kill by YOUR attack (ink and drone kills don't count).
     if monster_was_full and monster.hp <= 0:
         ac["one_shot"] = True
 
@@ -159,7 +152,6 @@ def drone_volley(player, monster, out, ac):
                     "monster_hp_before": monster.hp, "monster_hp": monster.hp - dmg})
         monster.hp -= dmg
     else:
-        # Stage 4: DRONE_STAGE4_MISSILES shots, each shredding DEF by its damage x DRONE_SHRED_MULTIPLIER.
         for shot in range(DRONE_STAGE4_MISSILES):
             dmg = max(datk * DRONE_MISSILE_MULTIPLIER - max(0, monster.df - datk * DRONE_MISSILE_MULTIPLIER), MIN_DAMAGE)
             new_df = max(monster.df - dmg * DRONE_SHRED_MULTIPLIER, 0)
@@ -184,7 +176,7 @@ def fight(player, monster, level, ac):
     if player.relic == "yd":
         drone_volley(player, monster, out, ac)
 
-    # Heart of Excessive Vitality wallet drain, clamped at 0.
+    # Negative money must not heal; dying here is a real death, even with ink held.
     if player.vitality_drain_pending:
         player.vitality_drain_pending = False
         drain = max(0, int(player.money // VITALITY_DRAIN_DIVISOR))
@@ -194,7 +186,6 @@ def fight(player, monster, level, ac):
         if not player.is_alive():
             return False, out
 
-    # Forbidden Ink: instant kill.
     if player.forbidden_ink > 0:
         msg_index = min(LIMIT["ink"] - player.forbidden_ink_total, len(FORBIDDEN_MESSAGES) - 1)
         out.append({"type": "ink_kill", "message_index": msg_index,
@@ -244,8 +235,7 @@ def post_fight(player, level):
             out.append({"type": "book_hp_applied", "max_hp": player.max_hp})
         player.pending_hp_multiplier = 1
 
-    # Money. Track 4 stage 4 "doubles income": it pays everything above
-    # again, (DRONE_INCOME_MULTIPLIER - 1) more times.
+    # Track 4 stage 4 "doubles income": pays the income below again, DRONE_INCOME_MULTIPLIER - 1 times.
     player.money += WIN_MONEY
     stages = player.drone.stages
     if stages[3] >= 1:
@@ -258,8 +248,7 @@ def post_fight(player, level):
         player.money += (DRONE_INCOME_MULTIPLIER - 1) * (
             WIN_MONEY + player.drone.atk + DRONE_T4_MONEY[0] + DRONE_T4_MONEY[1])
 
-    # Drone healing (track 3): the stages add up, and stage 4 "doubles" the
-    # total by healing it again, (DRONE_HEAL_MULTIPLIER - 1) more times.
+    # Track 3 stages add up; stage 4 "doubles" them by healing the total again.
     heals = DRONE_HEALS + [(DRONE_HEAL_MULTIPLIER - 1) * sum(DRONE_HEALS)]
     for threshold in range(1, len(heals) + 1):
         if stages[2] >= threshold:
@@ -270,7 +259,6 @@ def post_fight(player, level):
             player.max_hp += BLESSED_MAX_HP
         player.hp = player.max_hp
 
-    # Elixir hangover: extra SPD wears off after each fight following a drink.
     remaining = []
     for timer in player.elixir_timers:
         timer -= 1

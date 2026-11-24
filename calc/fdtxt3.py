@@ -1,7 +1,3 @@
-# fdtxt3.py - the library screen (fx-CG100).
-# Mirrors print_library() of "FiniteDungeons.py" in ASCII; numbers come
-# from fdval.py, unlock levels from its unlock tables.
-
 from fdval import *
 from fddata import UNLOCK_LEVEL, VITALITY_PERCENT, AR_POWER_SIGN, VITALITY_DRAIN_TEXT
 
@@ -9,7 +5,6 @@ S = str
 
 
 def U(key):
-    # The grey "(unlocks after beating lv. N)" label.
     return '\x01(unlocks after beating lv. ' + S(UNLOCK_LEVEL[key]) + ')\x02'
 
 

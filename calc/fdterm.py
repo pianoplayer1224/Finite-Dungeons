@@ -1,36 +1,28 @@
-# fdterm.py - a scrolling text "shell" drawn with casioplot (fx-CG100).
-# say() replaces print(), ask() replaces input() for numbers: type digits,
-# DEL deletes, EXE enters, UP/DOWN/LEFT/RIGHT scroll earlier output.
-# Output is buffered and only drawn while waiting for a key, which keeps
-# long fights fast. paint(kind, text) colours text (markers from MARK,
-# colours from TEXT_COLOURS in fdval); G ... R is the always-on grey.
-
 from casioplot import clear_screen, show_screen, draw_string, getkey
 from fdval import TEXT_COLOURS, COLOURS_ON
 
 W, H = 384, 192
 FONT = "small"
-LINE_H = 11            # measured row pitch of the small font (glyph 10 + 1)
-ROWS = H // LINE_H     # 17 text rows; the last one is the input line
+LINE_H = 11  # measured
+ROWS = H // LINE_H
 X0 = 2
 MAX_W = W - 2 * X0
-HISTORY = 400          # rows kept for scrolling back
-LOOPS_PER_SEC = 120000  # busy-wait loops per second (there is no clock)
+HISTORY = 400
+LOOPS_PER_SEC = 120000  # busy-wait loops per second; there is no clock
 
 BLACK = (0, 0, 0)
 GREY = (140, 140, 140)
 BLUE = (40, 90, 200)
-G = "\x01"   # start grey (muted) text
-R = "\x02"   # back to black text
-# One marker character per kind of coloured text (TEXT_COLOURS in fdval).
+G = "\x01"
+R = "\x02"
 MARK = {"muted": G, "story": "\x03", "good": "\x04", "bad": "\x05",
         "warning": "\x06", "money": "\x07"}
-INK = {R: BLACK}   # marker -> RGB
+INK = {R: BLACK}
 for _kind in list(MARK):
     if _kind in TEXT_COLOURS:
         INK[MARK[_kind]] = TEXT_COLOURS[_kind]
     else:
-        del MARK[_kind]   # a kind with no colour stays black
+        del MARK[_kind]
 
 # Key codes (row*10 + col), as measured on an fx-CG100.
 DIGITS = {91: "0", 81: "1", 82: "2", 83: "3", 71: "4", 72: "5", 73: "6",
@@ -38,14 +30,12 @@ DIGITS = {91: "0", 81: "1", 82: "2", 83: "3", 71: "4", 72: "5", 73: "6",
 EXE, DEL, UP, DOWN, LEFT, RIGHT = 95, 64, 14, 34, 23, 25
 MAX_TYPED = 9
 
-# Advance widths are over-estimates of the proportional font (measured:
-# "M" 8, digits 8, "-" 7, space 6, "i" 4), so a wrapped row can never overflow.
+# Advance widths are over-estimates, so a wrapped row can never overflow.
 _W4 = "ijl.,:;'!|"
 _W6 = " /\\()[]{}frtI\"`"
 
-LOG = None   # desktop tests set a list here to record every say() text
-rows = []    # wrapped output rows, each a str that may contain colour markers
-# "ink": marker in force; "new": first row since last prompt; "colours": on/off
+LOG = None  # desktop tests set a list here
+rows = []
 state = {"ink": R, "new": 0, "status": "", "colours": COLOURS_ON}
 
 
@@ -58,14 +48,12 @@ def cw(c):
 
 
 def paint(kind, text):
-    # Colour text as kind ("good", "bad", ...) when colours are on.
     if not state["colours"] or kind not in MARK:
         return text
     return MARK[kind] + text + R
 
 
 def plain(text):
-    # text without colour markers (the Shell can't show them)
     return "".join([c for c in text if c not in INK])
 
 
@@ -74,8 +62,6 @@ def _lead(ink):
 
 
 def _wrap(line, ink):
-    # Split one line (no "\n") into rows no wider than MAX_W. ink is the
-    # marker in force at the start; every row starts with its own marker.
     out = []
     start, w, sp, k, k_start, k_sp = 0, 0, -1, ink, ink, ink
     i = 0
@@ -104,7 +90,6 @@ def _wrap(line, ink):
 
 
 def say(*parts):
-    # print() for the drawn shell.
     text = " ".join([str(p) for p in parts])
     if LOG is not None:
         LOG.append(text)
@@ -112,26 +97,23 @@ def say(*parts):
 
 
 def _add(text):
-    # The colour carries over newlines within one call.
     k = state["ink"]
     for line in text.split("\n"):
         wrapped, k = _wrap(line, k)
         rows.extend(wrapped)
-    state["ink"] = R   # like print(): each call starts in black
-    while len(rows) > HISTORY:   # (list slice deletion may be compiled out)
+    state["ink"] = R
+    while len(rows) > HISTORY:  # list slice deletion may be compiled out
         rows.pop(0)
         state["new"] = max(0, state["new"] - 1)
 
 
 def shell(*parts):
-    # say() and also print() to the Shell, which keeps its last 200 lines
-    # after the program stops - used for save codes.
+    # The Shell keeps its last 200 lines after the program stops: used for save codes.
     say(*parts)
     print(plain(" ".join([str(p) for p in parts])))
 
 
 def fit(text):
-    # Cut text to one screen row.
     w = 0
     for i in range(len(text)):
         w += cw(text[i])
@@ -141,7 +123,6 @@ def fit(text):
 
 
 def status(text=""):
-    # A fixed top row (e.g. stats while shopping); "" removes it.
     state["status"] = fit(text)
 
 
@@ -161,7 +142,6 @@ def _draw_row(y, row, color):
 
 
 def _view():
-    # (first output row on screen, output rows that fit)
     n = ROWS - 1 - (1 if state["status"] else 0)
     return (1 if state["status"] else 0), n
 
@@ -183,8 +163,7 @@ def _draw(top, entry):
 
 
 def key():
-    # getkey() reports the key held right now and never waits, so wait for
-    # the previous key to be released first - one press, one action.
+    # getkey() never waits: wait for release first, so one press is one action.
     while getkey():
         pass
     while True:
@@ -194,13 +173,9 @@ def key():
 
 
 def ask(prompt="> "):
-    # input() for the drawn shell: digits only. Like a shell, the view sits
-    # at the newest output. UP/DOWN page, LEFT jumps to where the output
-    # since the last prompt began, RIGHT back to the end. EXE on an empty
-    # line while scrolled up pages down instead of entering.
     lead = prompt.split("\n")
     prompt = lead.pop()
-    for line in lead:          # a prompt's own line breaks go above it
+    for line in lead:
         _add(line)
     n = _view()[1]
     bottom = max(0, len(rows) - n)
@@ -226,7 +201,7 @@ def ask(prompt="> "):
             if not typed and top < bottom:
                 top = min(bottom, top + (n - 1))
                 continue
-            _add(prompt + typed)   # echo, like a shell
+            _add(prompt + typed)
             state["new"] = len(rows)
             return typed
 

@@ -1,6 +1,3 @@
-# fdtxt2.py - relic/artefact descriptions and the intro (fx-CG100).
-# Mirrors the PC game's texts in ASCII; numbers come from fdval.py.
-
 from fdval import *
 from fddata import VITALITY_PERCENT, AR_POWER_SIGN, VITALITY_DRAIN_TEXT
 
