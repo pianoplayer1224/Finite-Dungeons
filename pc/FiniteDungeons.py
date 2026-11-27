@@ -84,7 +84,7 @@ ELIXIR_SPD_LOSS = 1
 ELIXIR_EXTRA_SPD = 9
 ELIXIR_FIGHTS = 3
 ELIXIR_SPD_DECAY = 3
-SOCKS_MAX_HP = 5
+SOCKS_MAX_HP = 4
 AR_MAX_HP_LOSS = 5
 AR_LEVEL_STEP = 5
 AR_POWER = 4
@@ -182,7 +182,7 @@ RELIC_DESCRIPTIONS = {
     "family": f"Picture of Family — Revives once to {REVIVE_HP} HP when defeated.",
     "blessed": f"Blessed Emblem — Every {BLESSED_EVERY} monsters defeated, +{BLESSED_MAX_HP} max HP and heal max. -{BLESSED_START_HP_LOSS} HP when run starts",
     "forbidden": f"Forbidden Book — unlocks in shop: ink - costs {PRICE['ink']}, max purchase {LIMIT['ink']}, max hold {INK_HOLD}, auto consumed at start of fight and defeats the monster.",
-    "bk": f"K*C bronze membership card - chicken heals {CHICKEN_HEAL['bk'] - CHICKEN_HEAL['plain']} more hp",
+    "bk": f"K*C bronze membership card - chickens heal {CHICKEN_HEAL['bk'] - CHICKEN_HEAL['plain']} more hp, max purchase +{CHICKEN_LIMIT['bk'] - CHICKEN_LIMIT['plain']}",
     "yd": f"RAY-24 Drone - have a drone to help you fight! Buy up to {DRONE_SLOTS} upgrades",
     "e-sword": f"E-Sword — Starts with +{ESWORD_ATK} ATK.",
     "sk": f"K*C silver membership card - chickens heal {CHICKEN_HEAL['sk'] - CHICKEN_HEAL['plain']} more hp, max purchase +{CHICKEN_LIMIT['sk'] - CHICKEN_LIMIT['plain']}",
@@ -1341,7 +1341,7 @@ def shop_menu(player, level):
     for key, name in (("atk", f"Book of Attack (x{BOOK_MULTIPLIER} atk)"),
                       ("def", f"Book of Defence (x{BOOK_MULTIPLIER} def)"),
                       ("spd", f"Book of Speed (x{BOOK_MULTIPLIER} spd)"),
-                      ("hp", f"Book of Max HP (x{BOOK_MULTIPLIER} max hp)"),
+                      ("hp", f"Book of Max HP (x{BOOK_MULTIPLIER} max hp next round)"),
                       ("heal", "Book of Healing (hp → max hp)")):
         left = LIMIT["book"] - player.books[key]
         shop_line(f"{i} {name} - {PRICE['book']} ({left} left)", left == 0)
@@ -1648,7 +1648,7 @@ def print_library(profile):
     print(f"Forbidden Book \nUnlocks in the shop: ink-costs {PRICE['ink']}, max purchase {LIMIT['ink']}, max hold {INK_HOLD}, automatically consumed at start of fight and defeats the monster.")
     print(GREY + "What can be more cursed than a book full of equations?\n" + RESET)
 
-    print("K*C bronze membership card " + unlock_label("bk") + f" \nChickens heal {CHICKEN_HEAL['bk'] - CHICKEN_HEAL['plain']} more HP")
+    print("K*C bronze membership card " + unlock_label("bk") + f" \nChickens heal {CHICKEN_HEAL['bk'] - CHICKEN_HEAL['plain']} more HP, max purchase +{CHICKEN_LIMIT['bk'] - CHICKEN_LIMIT['plain']}")
     print(GREY + "A membership card that gets you extra food on order!\n" + RESET)
 
     print("K*C silver membership card " + unlock_label("sk") + f" \nChickens heal {CHICKEN_HEAL['sk'] - CHICKEN_HEAL['plain']} more HP, max purchase +{CHICKEN_LIMIT['sk'] - CHICKEN_LIMIT['plain']}")

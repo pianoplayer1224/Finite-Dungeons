@@ -86,7 +86,7 @@ ELIXIR_SPD_LOSS: 1         # Devotion's Elixir: lose this much SPD and [Elixirs 
 ELIXIR_EXTRA_SPD: 9        #   gain this much extra SPD,
 ELIXIR_FIGHTS: 3           #   wearing off over this many fights:
 ELIXIR_SPD_DECAY: 3        #   this much extra SPD lost after each of them
-SOCKS_MAX_HP: 5            # Cursed Socks: activate at this HP or less
+SOCKS_MAX_HP: 4            # Cursed Socks: activate at this HP or less
 AR_MAX_HP_LOSS: 5          # Abyssal Rad-Blood Oath: the water sample (once per run) costs this max HP
 AR_LEVEL_STEP: 5           #   and pays (levels beaten // this)
 AR_POWER: 4                #   ** this money (2, 3 or 4 have a superscript sign)

@@ -78,7 +78,7 @@ def drone_menu(player, level):
 BOOKS = (("atk", "Book of Attack (x" + S(BOOK_MULTIPLIER) + " atk)"),
          ("def", "Book of Defence (x" + S(BOOK_MULTIPLIER) + " def)"),
          ("spd", "Book of Speed (x" + S(BOOK_MULTIPLIER) + " spd)"),
-         ("hp", "Book of Max HP (x" + S(BOOK_MULTIPLIER) + " max hp)"),
+         ("hp", "Book of Max HP (x" + S(BOOK_MULTIPLIER) + " max hp next round)"),
          ("heal", "Book of Healing (hp -> max hp)"))
 
 
