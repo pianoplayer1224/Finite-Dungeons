@@ -255,9 +255,11 @@ static func stats_screen(player: PlayerState, level: int) -> Array[String]:
 
 ## The muted forecast pre_fight() prints when the fight starts (from GameEngine.fight_forecast).
 static func forecast_lines(fc: Dictionary) -> Array[String]:
+	var you_minimum_note := " (at least %d)" % Values.MIN_DAMAGE if fc["atk"] - fc["m_df"] < Values.MIN_DAMAGE else ""
+	var monster_minimum_note := " (at least %d)" % Values.MIN_DAMAGE if fc["m_atk"] - fc["df"] < Values.MIN_DAMAGE else ""
 	return [
-		"\nYou will deal %d-%d=%d(at least %d) dmg," % [fc["atk"], fc["m_df"], fc["you_deal"], Values.MIN_DAMAGE],
-		"\nMonster will deal %d-%d=%d(at least %d) dmg" % [fc["m_atk"], fc["df"], fc["monster_deals"], Values.MIN_DAMAGE],
+		"\nYou will deal %d-%d=%d%s dmg," % [fc["atk"], fc["m_df"], fc["you_deal"], you_minimum_note],
+		"\nMonster will deal %d-%d=%d%s dmg" % [fc["m_atk"], fc["df"], fc["monster_deals"], monster_minimum_note],
 		"Your spd is %d compared to the monster's %d," % [fc["spd"], fc["m_spd"]],
 		"so you will go first!" if fc["you_first"] else "so the monster will go first!",
 	]
