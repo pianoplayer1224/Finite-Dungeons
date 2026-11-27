@@ -13,7 +13,7 @@ same game.
 | --- | --- | --- |
 | PC (terminal) | [`pc/`](pc) | `python3 pc/FiniteDungeons.py` |
 | Casio fx-CG100 | [`calc/`](calc) | Copy all 14 files to the calculator, then run `findun.py` from the Python app. |
-| Godot 4 (desktop, web, Android) | [`godot/`](godot) | Play the web version at fd.sealnet.xyz, or open `godot/project.godot` in Godot 4.7. |
+| Godot 4 (desktop, web, Android) | [`godot/`](godot) | Play the web version at https://fd.sealnet.xyz/, or open `godot/project.godot` in Godot 4.7. |
 
 ## How to play
 
