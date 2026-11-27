@@ -115,10 +115,12 @@ def pre_fight(player, level, profile):
             spd = player.total_spd()
             df = player.total_df()
             m = create_monster(level)
+            you_minimum_note = "(at least " + S(MIN_DAMAGE) + ")" if atk - m.df < MIN_DAMAGE else ""
+            monster_minimum_note = "(at least " + S(MIN_DAMAGE) + ")" if m.atk - df < MIN_DAMAGE else ""
             say(paint("muted", "\nYou will deal " + S(atk) + "-" + S(m.df) + "="
-                + S(max(atk - m.df, MIN_DAMAGE)) + "(at least " + S(MIN_DAMAGE) + ") dmg,"))
+                + S(max(atk - m.df, MIN_DAMAGE)) + you_minimum_note + " dmg,"))
             say(paint("muted", "\nMonster will deal " + S(m.atk) + "-" + S(df) + "="
-                + S(max(m.atk - df, MIN_DAMAGE)) + "(at least " + S(MIN_DAMAGE) + ") dmg"))
+                + S(max(m.atk - df, MIN_DAMAGE)) + monster_minimum_note + " dmg"))
             say(paint("muted", "Your spd is " + S(spd) + " compared to the monster's "
                       + S(m.spd) + ","))
             if spd >= m.spd:
