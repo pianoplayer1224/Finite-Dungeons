@@ -15,8 +15,9 @@ RELIC_DESCRIPTIONS = {
         + ', max purchase ' + S(LIMIT['ink']) + ', max hold ' + S(INK_HOLD)
         + ', auto consumed at start of fight and defeats the monster.'
     ),
-    'bk': ('K*C bronze membership card - chicken heals '
-           + S(CHICKEN_HEAL['bk'] - CHICKEN_HEAL['plain']) + ' more hp'),
+    'bk': ('K*C bronze membership card - chickens heal '
+           + S(CHICKEN_HEAL['bk'] - CHICKEN_HEAL['plain']) + ' more hp, max purchase +'
+           + S(CHICKEN_LIMIT['bk'] - CHICKEN_LIMIT['plain'])),
     'yd': 'RAY-24 Drone - have a drone to help you fight! Buy up to ' + S(DRONE_SLOTS) + ' upgrades',
     'e-sword': 'E-Sword - Starts with +' + S(ESWORD_ATK) + ' ATK.',
     'sk': ('K*C silver membership card - chickens heal '

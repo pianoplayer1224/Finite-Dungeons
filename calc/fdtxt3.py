@@ -26,7 +26,8 @@ LIB_HEAD = [
     '\x01What can be more cursed than a book full of equations?\n\x02',
     (
         'K*C bronze membership card ' + U('bk') + ' \nChickens heal '
-        + S(CHICKEN_HEAL['bk'] - CHICKEN_HEAL['plain']) + ' more HP'
+        + S(CHICKEN_HEAL['bk'] - CHICKEN_HEAL['plain']) + ' more HP, max purchase +'
+        + S(CHICKEN_LIMIT['bk'] - CHICKEN_LIMIT['plain'])
     ),
     '\x01A membership card that gets you extra food on order!\n\x02',
     (

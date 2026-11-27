@@ -182,7 +182,7 @@ RELIC_DESCRIPTIONS = {
     "family": f"Picture of Family — Revives once to {REVIVE_HP} HP when defeated.",
     "blessed": f"Blessed Emblem — Every {BLESSED_EVERY} monsters defeated, +{BLESSED_MAX_HP} max HP and heal max. -{BLESSED_START_HP_LOSS} HP when run starts",
     "forbidden": f"Forbidden Book — unlocks in shop: ink - costs {PRICE['ink']}, max purchase {LIMIT['ink']}, max hold {INK_HOLD}, auto consumed at start of fight and defeats the monster.",
-    "bk": f"K*C bronze membership card - chicken heals {CHICKEN_HEAL['bk'] - CHICKEN_HEAL['plain']} more hp",
+    "bk": f"K*C bronze membership card - chickens heal {CHICKEN_HEAL['bk'] - CHICKEN_HEAL['plain']} more hp, max purchase +{CHICKEN_LIMIT['bk'] - CHICKEN_LIMIT['plain']}",
     "yd": f"RAY-24 Drone - have a drone to help you fight! Buy up to {DRONE_SLOTS} upgrades",
     "e-sword": f"E-Sword — Starts with +{ESWORD_ATK} ATK.",
     "sk": f"K*C silver membership card - chickens heal {CHICKEN_HEAL['sk'] - CHICKEN_HEAL['plain']} more hp, max purchase +{CHICKEN_LIMIT['sk'] - CHICKEN_LIMIT['plain']}",
@@ -1648,7 +1648,7 @@ def print_library(profile):
     print(f"Forbidden Book \nUnlocks in the shop: ink-costs {PRICE['ink']}, max purchase {LIMIT['ink']}, max hold {INK_HOLD}, automatically consumed at start of fight and defeats the monster.")
     print(GREY + "What can be more cursed than a book full of equations?\n" + RESET)
 
-    print("K*C bronze membership card " + unlock_label("bk") + f" \nChickens heal {CHICKEN_HEAL['bk'] - CHICKEN_HEAL['plain']} more HP")
+    print("K*C bronze membership card " + unlock_label("bk") + f" \nChickens heal {CHICKEN_HEAL['bk'] - CHICKEN_HEAL['plain']} more HP, max purchase +{CHICKEN_LIMIT['bk'] - CHICKEN_LIMIT['plain']}")
     print(GREY + "A membership card that gets you extra food on order!\n" + RESET)
 
     print("K*C silver membership card " + unlock_label("sk") + f" \nChickens heal {CHICKEN_HEAL['sk'] - CHICKEN_HEAL['plain']} more HP, max purchase +{CHICKEN_LIMIT['sk'] - CHICKEN_LIMIT['plain']}")
