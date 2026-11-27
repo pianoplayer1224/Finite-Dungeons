@@ -1341,7 +1341,7 @@ def shop_menu(player, level):
     for key, name in (("atk", f"Book of Attack (x{BOOK_MULTIPLIER} atk)"),
                       ("def", f"Book of Defence (x{BOOK_MULTIPLIER} def)"),
                       ("spd", f"Book of Speed (x{BOOK_MULTIPLIER} spd)"),
-                      ("hp", f"Book of Max HP (x{BOOK_MULTIPLIER} max hp after winning next fight)"),
+                      ("hp", f"Book of Max HP (x{BOOK_MULTIPLIER} max hp next round)"),
                       ("heal", "Book of Healing (hp → max hp)")):
         left = LIMIT["book"] - player.books[key]
         shop_line(f"{i} {name} - {PRICE['book']} ({left} left)", left == 0)

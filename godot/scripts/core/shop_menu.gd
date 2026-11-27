@@ -12,7 +12,7 @@ const BOOK_ROWS := [
 	["atk", "Book of Attack", "x%d atk"],
 	["def", "Book of Defence", "x%d def"],
 	["spd", "Book of Speed", "x%d spd"],
-	["hp", "Book of Max HP", "x%d max hp after winning next fight"],
+	["hp", "Book of Max HP", "x%d max hp next round"],
 	["heal", "Book of Healing", ""],
 ]
 
