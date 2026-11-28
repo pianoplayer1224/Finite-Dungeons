@@ -21,7 +21,7 @@ CREDITS = [
     ),
     (
         '\nTim Berners-Lee, creator of the World Wide Web, who provided internet '
-        'access to me for reserches'
+        'access to me for research'
     ),
     (
         '\nLarry Page and Sergey Brin, founders of Google, who provided more '

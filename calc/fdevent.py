@@ -81,7 +81,7 @@ def format_event(ev):
                 "Active relic switched to: " + RELIC_NAMES[ev["relic"]]]
 
     if t == "meowton_equipped":
-        return ["A law suit is not one that provides defence ability, DEF-" + S(MEOWTON_DEF_LOSS)]
+        return ["A lawsuit is not one that provides defence ability, DEF-" + S(MEOWTON_DEF_LOSS)]
 
     if t == "esword_equipped":
         if ev["had_sword"]:

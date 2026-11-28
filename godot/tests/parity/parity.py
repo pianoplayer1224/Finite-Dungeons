@@ -262,7 +262,7 @@ def op_start(r, artefact, relic):
         player.hp = fd.VITALITY_HP
     if player.relic == "meowton":
         player.df -= fd.MEOWTON_DEF_LOSS
-        res.append(glue({"type": "meowton_equipped"}, [f"A law suit is not one that provides defence ability, DEF-{fd.MEOWTON_DEF_LOSS}"]))
+        res.append(glue({"type": "meowton_equipped"}, [f"A lawsuit is not one that provides defence ability, DEF-{fd.MEOWTON_DEF_LOSS}"]))
     blessed_packed = ("blessed" in player.relics) if player.relics else (player.relic == "blessed")
     if blessed_packed:
         player.hp -= fd.BLESSED_START_HP_LOSS
@@ -291,7 +291,7 @@ def op_fight(r):
             profile.ac["drich"] = True
         if level == fd.HARD_MODE_LEVEL and p.relic == "meowton" and p.artefact == "socks":
             profile.ac["hmode"] = True
-            res.append(glue({"type": "hard_mode"}, ["I don't balme you, you just attempted the hardest difficulty"]))
+            res.append(glue({"type": "hard_mode"}, ["I don't blame you, you just attempted the hardest difficulty"]))
         res.append(glue({"type": "run_finished", "runs": profile.runs}, [f"\nRun {profile.runs} finished! \n"]))
         r.over = True
         return res, forecast

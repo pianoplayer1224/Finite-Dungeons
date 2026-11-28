@@ -123,7 +123,7 @@ static func format_event(ev: Dictionary) -> Array[String]:
 				"Active relic switched to: %s" % Content.RELIC_NAMES[ev["relic"]]]
 
 	if t == "meowton_equipped":
-		return ["A law suit is not one that provides defence ability, DEF-%d" % Values.MEOWTON_DEF_LOSS]
+		return ["A lawsuit is not one that provides defence ability, DEF-%d" % Values.MEOWTON_DEF_LOSS]
 
 	if t == "esword_equipped":
 		if ev["had_sword"]:
@@ -201,7 +201,7 @@ static func format_event(ev: Dictionary) -> Array[String]:
 		return ["\nYou died! Level completed this run: %d.   Highest: %d" % [ev["level_completed"], ev["highest"]]]
 
 	if t == "hard_mode":
-		return ["I don't balme you, you just attempted the hardest difficulty"]
+		return ["I don't blame you, you just attempted the hardest difficulty"]
 
 	if t == "run_finished":
 		return ["\nRun %d finished! \n" % ev["runs"]]
@@ -255,9 +255,13 @@ static func stats_screen(player: PlayerState, level: int) -> Array[String]:
 
 ## The muted forecast pre_fight() prints when the fight starts (from GameEngine.fight_forecast).
 static func forecast_lines(fc: Dictionary) -> Array[String]:
+	var your_matchup := "\nYour ATK - Monster DEF = %d," % (fc["atk"] - fc["m_df"]) if fc["atk"] > fc["m_df"] else "\nYour ATK ≤ Monster DEF,"
+	var monster_matchup := "\nMonster ATK - Your DEF = %d," % (fc["m_atk"] - fc["df"]) if fc["m_atk"] > fc["df"] else "\nMonster ATK ≤ Your DEF,"
 	return [
-		"\nYou will deal %d-%d=%d(at least %d) dmg," % [fc["atk"], fc["m_df"], fc["you_deal"], Values.MIN_DAMAGE],
-		"\nMonster will deal %d-%d=%d(at least %d) dmg" % [fc["m_atk"], fc["df"], fc["monster_deals"], Values.MIN_DAMAGE],
+		your_matchup,
+		monster_matchup,
+		"So you will deal %d damage per turn," % fc["you_deal"],
+		"Monster will deal %d damage per turn," % fc["monster_deals"],
 		"Your spd is %d compared to the monster's %d," % [fc["spd"], fc["m_spd"]],
 		"so you will go first!" if fc["you_first"] else "so the monster will go first!",
 	]
