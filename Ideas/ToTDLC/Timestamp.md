@@ -7,7 +7,9 @@ which basicaaly time travles back to tur timestamp,
 option becomes 'place timestamp' again (if multipul uses per run), 
 ie saveload
 # unlock
-tbd, sm to do with reward of the completing the puzzels ig
+tbd, sm to do with reward of the completing the puzzels ig, 
+info of 'player unlocked this' can be sm in the save code, sm like an extra t at the start, or just another binary added
+
 # implantation ideas
 for each varaiable create a version that ends with a extra 't', 
 eg 'player.hp' -— > 'player.hpt', 
