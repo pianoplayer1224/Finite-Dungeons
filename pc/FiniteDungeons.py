@@ -1459,10 +1459,16 @@ def pre_fight(player, level, profile):
             spd = player.total_spd
             df = player.total_df
             m = create_monster(level)
-            you_minimum_note = f"(at least {MIN_DAMAGE})" if atk - m.df < MIN_DAMAGE else ""
-            monster_minimum_note = f"(at least {MIN_DAMAGE})" if m.atk - df < MIN_DAMAGE else ""
-            print(paint("muted", f"\nYou will deal {atk}-{m.df}={max(atk - m.df, MIN_DAMAGE)}{you_minimum_note} dmg,"))
-            print(paint("muted", f"\nMonster will deal {m.atk}-{df}={max(m.atk - df, MIN_DAMAGE)}{monster_minimum_note} dmg"))
+            if atk > m.df:
+                print(paint("muted", f"\nYour ATK - Monster DEF = {atk - m.df},"))
+            else:
+                print(paint("muted", "\nYour ATK ≤ Monster DEF,"))
+            if m.atk > df:
+                print(paint("muted", f"\nMonster ATK - Your DEF = {m.atk - df},"))
+            else:
+                print(paint("muted", "\nMonster ATK ≤ Your DEF,"))
+            print(paint("muted", f"So you will deal {max(atk - m.df, MIN_DAMAGE)} damage per turn,"))
+            print(paint("muted", f"Monster will deal {max(m.atk - df, MIN_DAMAGE)} damage per turn,"))
             print(paint("muted", f"Your spd is {spd} compared to the monster's {m.spd},"))
             if spd >= m.spd:
                 print(paint("muted", "so you will go first!"))

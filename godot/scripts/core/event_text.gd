@@ -255,11 +255,13 @@ static func stats_screen(player: PlayerState, level: int) -> Array[String]:
 
 ## The muted forecast pre_fight() prints when the fight starts (from GameEngine.fight_forecast).
 static func forecast_lines(fc: Dictionary) -> Array[String]:
-	var you_minimum_note := " (at least %d)" % Values.MIN_DAMAGE if fc["atk"] - fc["m_df"] < Values.MIN_DAMAGE else ""
-	var monster_minimum_note := " (at least %d)" % Values.MIN_DAMAGE if fc["m_atk"] - fc["df"] < Values.MIN_DAMAGE else ""
+	var your_matchup := "\nYour ATK - Monster DEF = %d," % (fc["atk"] - fc["m_df"]) if fc["atk"] > fc["m_df"] else "\nYour ATK ≤ Monster DEF,"
+	var monster_matchup := "\nMonster ATK - Your DEF = %d," % (fc["m_atk"] - fc["df"]) if fc["m_atk"] > fc["df"] else "\nMonster ATK ≤ Your DEF,"
 	return [
-		"\nYou will deal %d-%d=%d%s dmg," % [fc["atk"], fc["m_df"], fc["you_deal"], you_minimum_note],
-		"\nMonster will deal %d-%d=%d%s dmg" % [fc["m_atk"], fc["df"], fc["monster_deals"], monster_minimum_note],
+		your_matchup,
+		monster_matchup,
+		"So you will deal %d damage per turn," % fc["you_deal"],
+		"Monster will deal %d damage per turn," % fc["monster_deals"],
 		"Your spd is %d compared to the monster's %d," % [fc["spd"], fc["m_spd"]],
 		"so you will go first!" if fc["you_first"] else "so the monster will go first!",
 	]
