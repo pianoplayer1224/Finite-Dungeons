@@ -1073,7 +1073,7 @@ def format_event(ev):
                 f"Active relic switched to: {RELIC_NAMES[ev['relic']]}"]
 
     if t == "meowton_equipped":
-        return [f"A law suit is not one that provides defence ability, DEF-{MEOWTON_DEF_LOSS}"]
+        return [f"A lawsuit is not one that provides defence ability, DEF-{MEOWTON_DEF_LOSS}"]
 
     if t == "esword_equipped":
         if ev["had_sword"]:
@@ -1580,7 +1580,7 @@ def run(profile):
         player.hp = VITALITY_HP
     if player.relic == "meowton":
         player.df -= MEOWTON_DEF_LOSS
-        print(f"A law suit is not one that provides defence ability, DEF-{MEOWTON_DEF_LOSS}")
+        print(f"A lawsuit is not one that provides defence ability, DEF-{MEOWTON_DEF_LOSS}")
     blessed_packed = ("blessed" in player.relics) if player.relics else (player.relic == "blessed")
     if blessed_packed:
         player.hp -= BLESSED_START_HP_LOSS
@@ -1611,7 +1611,7 @@ def run(profile):
                 profile.ac["drich"] = True
             if level == HARD_MODE_LEVEL and player.relic == "meowton" and player.artefact == "socks":
                 profile.ac["hmode"] = True
-                print("I don't balme you, you just attempted the hardest difficulty")
+                print("I don't blame you, you just attempted the hardest difficulty")
             print(f"\nRun {profile.runs} finished! \n")
             print("Save code:", save_code(profile))
             return
@@ -1704,7 +1704,7 @@ def print_credits():
     print("\nOleg Losev, LED research pioneer, who provided more glowing things to type on to me")
     print("\nAlessandro Volta, inventor of the battery, who provided portable power to me")
     print("\nMichael Faraday, discoverer of electromagnetic induction, who provided electricity generation to me")
-    print("\nTim Berners-Lee, creator of the World Wide Web, who provided internet access to me for reserches")
+    print("\nTim Berners-Lee, creator of the World Wide Web, who provided internet access to me for research")
     print("\nLarry Page and Sergey Brin, founders of Google, who provided more searching ability to me")
     print("\nLinus Torvalds, creator of Linux, who provided computing foundations to me")
     print("\nDennis Ritchie, creator of C language, who provided programming foundations to me")

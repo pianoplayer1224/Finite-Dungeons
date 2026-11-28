@@ -128,7 +128,7 @@ def run(profile):
         player.hp = VITALITY_HP
     if player.relic == "meowton":
         player.df -= MEOWTON_DEF_LOSS
-        say("A law suit is not one that provides defence ability, DEF-" + S(MEOWTON_DEF_LOSS))
+        say("A lawsuit is not one that provides defence ability, DEF-" + S(MEOWTON_DEF_LOSS))
     blessed_packed = ("blessed" in player.relics) if player.relics else (player.relic == "blessed")
     if blessed_packed:
         player.hp -= BLESSED_START_HP_LOSS
@@ -160,7 +160,7 @@ def run(profile):
                 profile.ac["drich"] = True
             if level == HARD_MODE_LEVEL and player.relic == "meowton" and player.artefact == "socks":
                 profile.ac["hmode"] = True
-                say("I don't balme you, you just attempted the hardest difficulty")
+                say("I don't blame you, you just attempted the hardest difficulty")
             say("\nRun " + S(profile.runs) + " finished! \n")
             shell("Save code:", save_code(profile))
             return

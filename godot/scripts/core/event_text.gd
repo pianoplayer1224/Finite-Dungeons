@@ -123,7 +123,7 @@ static func format_event(ev: Dictionary) -> Array[String]:
 				"Active relic switched to: %s" % Content.RELIC_NAMES[ev["relic"]]]
 
 	if t == "meowton_equipped":
-		return ["A law suit is not one that provides defence ability, DEF-%d" % Values.MEOWTON_DEF_LOSS]
+		return ["A lawsuit is not one that provides defence ability, DEF-%d" % Values.MEOWTON_DEF_LOSS]
 
 	if t == "esword_equipped":
 		if ev["had_sword"]:
@@ -201,7 +201,7 @@ static func format_event(ev: Dictionary) -> Array[String]:
 		return ["\nYou died! Level completed this run: %d.   Highest: %d" % [ev["level_completed"], ev["highest"]]]
 
 	if t == "hard_mode":
-		return ["I don't balme you, you just attempted the hardest difficulty"]
+		return ["I don't blame you, you just attempted the hardest difficulty"]
 
 	if t == "run_finished":
 		return ["\nRun %d finished! \n" % ev["runs"]]

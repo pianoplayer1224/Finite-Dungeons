@@ -206,7 +206,7 @@ const CREDITS: Array[String] = [
 	"\nOleg Losev, LED research pioneer, who provided more glowing things to type on to me",
 	"\nAlessandro Volta, inventor of the battery, who provided portable power to me",
 	"\nMichael Faraday, discoverer of electromagnetic induction, who provided electricity generation to me",
-	"\nTim Berners-Lee, creator of the World Wide Web, who provided internet access to me for reserches",
+	"\nTim Berners-Lee, creator of the World Wide Web, who provided internet access to me for research",
 	"\nLarry Page and Sergey Brin, founders of Google, who provided more searching ability to me",
 	"\nLinus Torvalds, creator of Linux, who provided computing foundations to me",
 	"\nDennis Ritchie, creator of C language, who provided programming foundations to me",
